@@ -13,7 +13,7 @@ export default function FAQSection(){
               <AccordionTrigger className="text-left text-lg font-semibold text-gray-700 hover:text-purple-600">
                 Como funciona o resumo automático?
               </AccordionTrigger>
-              <AccordionContent className="text-gray-600">
+              <AccordionContent className="text-gray-600 font-inter">
                 Nossa tecnologia utiliza IA avançada para analisar textos e criar resumos concisos mantendo os
                 pontos principais e ideias essenciais do conteúdo original.
               </AccordionContent>
@@ -22,7 +22,7 @@ export default function FAQSection(){
               <AccordionTrigger className="text-left text-lg font-semibold text-gray-700 hover:text-purple-600">
                 Os flashcards são personalizáveis?
               </AccordionTrigger>
-              <AccordionContent className="text-gray-600">
+              <AccordionContent className="text-gray-600 font-inter">
                 Sim! Você pode personalizar seus flashcards com texto, imagens e áudio, além de organizá-los em
                 diferentes categorias e níveis de dificuldade.
               </AccordionContent>
@@ -31,7 +31,7 @@ export default function FAQSection(){
               <AccordionTrigger className="text-left text-lg font-semibold text-gray-700 hover:text-purple-600">
                 Quais formatos de citação são suportados?
               </AccordionTrigger>
-              <AccordionContent className="text-gray-600">
+              <AccordionContent className="text-gray-600 font-inter">
                 Suportamos os principais formatos acadêmicos como ABNT, APA, MLA e Vancouver, garantindo citações
                 precisas e atualizadas.
               </AccordionContent>
@@ -40,7 +40,7 @@ export default function FAQSection(){
               <AccordionTrigger className="text-left text-lg font-semibold text-gray-700 hover:text-purple-600">
                 Posso usar o Syntese offline?
               </AccordionTrigger>
-              <AccordionContent className="text-gray-600">
+              <AccordionContent className="text-gray-600 font-inter">
                 Algumas funcionalidades estão disponíveis offline, mas para melhor experiência e acesso a todas as
                 ferramentas, recomendamos conexão com internet.
               </AccordionContent>

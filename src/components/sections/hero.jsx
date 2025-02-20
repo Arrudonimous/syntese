@@ -8,7 +8,7 @@ export default function HeroSection(){
           <h1 className="animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-5xl font-black text-transparent sm:text-6xl md:text-7xl">
             IA para Estudantes e Profissionais
           </h1>
-          <p className="mt-6 text-xl text-gray-600 md:text-2xl">
+          <p className="mt-6 text-xl text-gray-600 md:text-2xl font-inter">
             Potencialize seus estudos e sua carreira com ferramentas inteligentes de resumo, citações, flashcards e
             automação de e-mails profissionais.
           </p>
