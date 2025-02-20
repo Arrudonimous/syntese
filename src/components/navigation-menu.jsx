@@ -11,12 +11,12 @@ export function NavigationMenu() {
     <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center space-x-2">
-          {/* <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/syntese-0QoonbFlkdSdC2duJrLuusMG9H8lTh.png"
+          <Image
+            src="/images/syntese.png"
             alt="Syntese Logo"
             width={32}
             height={32}
-          /> */}
+          />
           <span className="text-xl font-semibold">Syntese</span>
         </Link>
         <nav className="hidden gap-6 md:flex">
