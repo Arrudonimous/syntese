@@ -96,7 +96,11 @@ module.exports = {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
   			text: 'text 5s ease infinite'
-  		}
+  		},
+			fontFamily: {
+				poppins: ['var(--font-poppins)', 'sans-serif'],
+				inter: ['var(--font-inter)', 'sans-serif']
+			}
   	}
   },
   plugins: [require("tailwindcss-animate")],
