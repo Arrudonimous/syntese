@@ -5,7 +5,7 @@ export default function HeroSection(){
     <section className="relative overflow-hidden px-4 pt-16 pb-16 md:px-6 lg:pt-20 lg:pb-20">
       <div className="container mx-auto">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-5xl font-black text-transparent sm:text-6xl md:text-7xl">
+          <h1 className="animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-4xl font-black text-transparent sm:text-6xl md:text-7xl">
             IA para Estudantes e Profissionais
           </h1>
           <p className="mt-6 text-xl text-gray-600 md:text-2xl font-inter">
