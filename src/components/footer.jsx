@@ -17,13 +17,13 @@ export const Footer = () => {
           </span>
         </div>
         <nav className="flex gap-4">
-          <Link href="/termos" className="text-sm text-gray-500 hover:text-purple-600">
+          <Link href="/terms" className="text-sm text-gray-500 hover:text-purple-600">
             Termos
           </Link>
-          <Link href="/privacidade" className="text-sm text-gray-500 hover:text-purple-600">
+          <Link href="/privacy" className="text-sm text-gray-500 hover:text-purple-600">
             Privacidade
           </Link>
-          <Link href="/contato" className="text-sm text-gray-500 hover:text-purple-600">
+          <Link href="/contact" className="text-sm text-gray-500 hover:text-purple-600">
             Contato
           </Link>
         </nav>
