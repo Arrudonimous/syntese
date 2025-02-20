@@ -71,7 +71,7 @@ export function TestimonialCarousel() {
                 <p className="text-sm text-gray-600">{testimonial.role}</p>
               </div>
             </div>
-            <p className="mt-4 text-gray-600">{testimonial.content}</p>
+            <p className="mt-4 text-gray-600 font-inter">{testimonial.content}</p>
           </div>
         </div>
       ))}

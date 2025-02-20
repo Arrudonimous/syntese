@@ -7,7 +7,7 @@ export default function CTASection(){
         <h2 className="text-4xl font-bold tracking-tighter text-white sm:text-5xl md:text-6xl">
           Comece a otimizar seus estudos hoje
         </h2>
-        <p className="mx-auto mt-4 max-w-[600px] text-xl text-purple-100 md:text-2xl">
+        <p className="mx-auto mt-4 max-w-[600px] text-xl text-purple-100 md:text-2xl font-inter">
           Junte-se a milhares de estudantes e profissionais que já transformaram sua forma de estudar e trabalhar.
         </p>
         <Button
