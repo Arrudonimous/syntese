@@ -17,7 +17,27 @@ const inter = Inter({
 
 export const metadata = {
   title: "Syntese",
-  description: "Syntese sua ferramenta para melhoria de produtividade",
+  description: "Syntese, sua ferramenta para melhoria de produtividade",
+  openGraph: {
+    title: "Syntese",
+    description: "Aumente sua produtividade com a ferramenta Syntese",
+    url: "https://www.syntese.com",
+    siteName: "Syntese",
+    images: [
+      {
+        url: "/images/preview.png",
+        width: 1200,
+        height: 630,
+        alt: "Syntese Preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Syntese",
+    description: "Aumente sua produtividade com a ferramenta Syntese",
+    image: "/images/preview.png",
+  },
 };
 
 export default function RootLayout({ children }) {
