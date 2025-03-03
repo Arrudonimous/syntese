@@ -10,8 +10,8 @@ export function NavigationMenu() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <div className="flex">
-          <Link href="/" className="lg:flex items-center space-x-2 hidden sm:block">
+        <div className="flex space-x-3">
+          <Link href="/" className="lg:flex items-center hidden sm:block">
             <Image
               src="/images/syntese.png"
               alt="Syntese Logo"
