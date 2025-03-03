@@ -25,18 +25,8 @@ export default function AboutPage() {
                 máquinas, e estamos comprometidos em liderar essa transformação.
               </p>
             </div>
-            <div className="grid gap-8 md:grid-cols-3">
-              <TeamMember
-                name="Ana Rodrigues"
-                role="CEO & Co-fundadora"
-                image="/placeholder.svg?height=300&width=300"
-              />
-              <TeamMember name="Carlos Silva" role="CTO & Co-fundador" image="/placeholder.svg?height=300&width=300" />
-              <TeamMember
-                name="Mariana Santos"
-                role="Diretora de Produto"
-                image="/placeholder.svg?height=300&width=300"
-              />
+            <div className="flex items-center justify-center">
+              <TeamMember name="Diego Arruda" role="CEO & CTO & Fundador" image="/images/diego.jpg" />
             </div>
           </div>
         </section>
