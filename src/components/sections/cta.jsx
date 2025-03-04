@@ -1,6 +1,9 @@
+"use client"
 import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
 
 export default function CTASection(){
+  const router = useRouter()
   return (
     <section className="relative overflow-hidden px-4 py-16 md:px-6 lg:py-20">
       <div className="container relative z-10 mx-auto text-center">
@@ -13,6 +16,7 @@ export default function CTASection(){
         <Button
           size="lg"
           className="mt-8 rounded-full bg-white px-8 py-3 text-lg font-semibold text-purple-600 transition-all duration-300 hover:bg-purple-100 hover:shadow-lg"
+          onClick={() => router.push('/register')}
         >
           Experimente Grátis
         </Button>

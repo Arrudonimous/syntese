@@ -1,8 +1,10 @@
-import { NavigationMenu } from "@/components/navigation-menu"
+"use client"
 import { Button } from "@/components/ui/button"
 import { CheckCircle } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export default function PricingPage() {
+  const router = useRouter()
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100">
       <main className="flex-1">
@@ -26,6 +28,7 @@ export default function PricingPage() {
                   "Suporte por email",
                 ]}
                 buttonText="Começar Grátis"
+                onClickButton={() => router.push('/register')}
               />
               <PricingCard
                 title="Pro"
@@ -40,6 +43,7 @@ export default function PricingPage() {
                 ]}
                 buttonText="Assinar Agora"
                 highlighted={true}
+                onClickButton={() => router.push('/register')}
               />
               <PricingCard
                 title="Empresas"
@@ -53,6 +57,7 @@ export default function PricingPage() {
                   "Suporte dedicado",
                 ]}
                 buttonText="Fale Conosco"
+                onClickButton={() => router.push('/contact')}
               />
             </div>
           </div>
@@ -69,6 +74,7 @@ function PricingCard({
   features,
   buttonText,
   highlighted = false,
+  onClickButton
 }) {
   return (
     <div
@@ -88,6 +94,7 @@ function PricingCard({
       </ul>
       <Button
         className={`w-full ${highlighted ? "bg-purple-600 hover:bg-purple-700" : "bg-gray-800 hover:bg-gray-900"}`}
+        onClick={onClickButton}
       >
         {buttonText}
       </Button>

@@ -1,12 +1,13 @@
 "use client"
 import Image from "next/image"
 import Link from "next/link"
-import { Menu } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { useRouter } from "next/navigation"
 
 export function NavigationMenu() {
+  const router = useRouter()
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
@@ -38,10 +39,12 @@ export function NavigationMenu() {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
-          <Button variant="ghost" className="hidden md:inline-flex">
+          <Button variant="ghost" className="hidden md:inline-flex" onClick={() => router.push('/login')}>
             Entrar
           </Button>
-          <Button className="hidden bg-purple-600 hover:bg-purple-700 md:inline-flex">Começar Grátis</Button>
+          <Button className="hidden bg-purple-600 hover:bg-purple-700 md:inline-flex" onClick={() => router.push('/register')}>
+            Começar Grátis
+          </Button>
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="md:hidden">
@@ -71,8 +74,10 @@ export function NavigationMenu() {
                 <Link href="/contact" className="text-lg font-medium text-gray-500 hover:text-gray-900">
                   Contato
                 </Link>
-                <Button className="mt-4 w-full bg-purple-600 hover:bg-purple-700">Começar Grátis</Button>
-                <Button variant="outline" className="w-full">
+                <Button className="mt-4 w-full bg-purple-600 hover:bg-purple-700" onClick={() => router.push('/register')}>
+                  Começar Grátis
+                </Button>
+                <Button variant="outline" className="w-full" onClick={() => router.push('/login')}>
                   Entrar
                 </Button>
               </nav>

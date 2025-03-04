@@ -1,8 +1,10 @@
-import { NavigationMenu } from "@/components/navigation-menu"
+"use client"
 import { Button } from "@/components/ui/button"
 import { Zap, BookOpen, Brain, Mail } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export default function FeaturesPage() {
+  const router = useRouter()
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100">
       <main className="flex-1">
@@ -45,7 +47,7 @@ export default function FeaturesPage() {
             <p className="mb-8 text-xl text-gray-600">
               Comece a usar o Syntese gratuitamente e transforme sua produtividade.
             </p>
-            <Button size="lg" className="bg-purple-600 hover:bg-purple-700">
+            <Button size="lg" className="bg-purple-600 hover:bg-purple-700" onClick={() => router.push('/register')}>
               Começar Agora
             </Button>
           </div>

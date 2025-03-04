@@ -1,6 +1,9 @@
+"use client"
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 
 export default function HeroSection(){
+  const router = useRouter()
   return (
     <section className="relative overflow-hidden px-4 pt-16 pb-16 md:px-6 lg:pt-20 lg:pb-20">
       <div className="container mx-auto">
@@ -16,6 +19,7 @@ export default function HeroSection(){
             <Button
               size="lg"
               className="group relative overflow-hidden rounded-full bg-purple-600 px-8 py-3 text-lg font-semibold text-white transition-all duration-300 ease-out hover:bg-purple-700 hover:shadow-lg"
+              onClick={() => router.push('/register')}
             >
               <span className="relative z-10">Experimente Grátis</span>
               <span className="absolute bottom-0 left-0 h-full w-full origin-bottom scale-y-0 transform bg-gradient-to-t from-purple-400 to-purple-600 transition-transform duration-300 ease-out group-hover:scale-y-100"></span>
@@ -24,6 +28,7 @@ export default function HeroSection(){
               size="lg"
               variant="outline"
               className="rounded-full border-purple-300 px-8 py-3 text-lg font-semibold text-purple-700 transition-all duration-300 hover:bg-purple-100 hover:shadow-lg"
+              onClick={() => router.push('/features')}
             >
               Saiba Mais
             </Button>
