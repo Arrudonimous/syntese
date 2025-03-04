@@ -80,8 +80,8 @@ export default function PrivacyPolicyPage() {
             <h2>10. Contato</h2>
             <p>
               Se você tiver alguma dúvida sobre esta Política de Privacidade, entre em contato conosco em{" "}
-              <Link href="mailto:privacidade@syntese.com" className="text-purple-600 hover:underline">
-                privacidade@syntese.com
+              <Link href="mailto:syntese.app@gmail.com" className="text-purple-600 hover:underline">
+                syntese.app@gmail.com
               </Link>
               .
             </p>

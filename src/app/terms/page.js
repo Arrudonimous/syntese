@@ -72,8 +72,8 @@ export default function TermsOfUsePage() {
             <h2>10. Contato</h2>
             <p>
               Se você tiver alguma dúvida sobre estes Termos, entre em contato conosco em{" "}
-              <Link href="mailto:termos@syntese.com" className="text-purple-600 hover:underline">
-                termos@syntese.com
+              <Link href="mailto:syntese.app@gmail.com" className="text-purple-600 hover:underline">
+                syntese.app@gmail.com
               </Link>
               .
             </p>

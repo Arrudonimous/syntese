@@ -131,11 +131,11 @@ export default function GetStartedPage() {
                   />
                   <Label htmlFor="terms" className="text-sm text-gray-600">
                     Eu concordo com os{" "}
-                    <Link href="/termos" className="text-purple-600 hover:underline">
+                    <Link href="/terms" className="text-purple-600 hover:underline">
                       Termos de Uso
                     </Link>{" "}
                     e{" "}
-                    <Link href="/privacidade" className="text-purple-600 hover:underline">
+                    <Link href="/privacy" className="text-purple-600 hover:underline">
                       Política de Privacidade
                     </Link>
                   </Label>
