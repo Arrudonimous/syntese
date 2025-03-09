@@ -1,14 +1,31 @@
-import jwt from "jsonwebtoken";
+import { SignJWT, jwtVerify } from 'jose';
 
 const SECRET_KEY = process.env.JWT_SECRET;
 
-export function generateToken(payload) {
-  return jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+export async function generateToken(payload) {
+  try {
+    const encoder = new TextEncoder();
+    const secret = encoder.encode(SECRET_KEY);
+
+    const jwt = await new SignJWT(payload)
+      .setExpirationTime('5s')
+      .setProtectedHeader({ alg: 'HS256' })
+      .sign(secret);
+
+    return jwt;
+  } catch (error) {
+    return null;
+  }
 }
 
-export function verifyToken(token) {
+export async function verifyToken(token) {
   try {
-    return jwt.verify(token, SECRET_KEY);
+    const encoder = new TextEncoder();
+    const secret = encoder.encode(SECRET_KEY);
+
+    const { payload } = await jwtVerify(token, secret);
+
+    return payload;
   } catch (error) {
     return null;
   }

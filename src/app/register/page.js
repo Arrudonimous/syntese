@@ -25,8 +25,11 @@ export default function GetStartedPage() {
     try {
       const res = await createUser()
       toast.success(res.message)
-
       resetFields()
+
+      const loginRes = await login()
+      toast.success(loginRes.message)
+
     } catch (error) {
       const response = error.response.data
       toast.error(response.message)
@@ -39,6 +42,19 @@ export default function GetStartedPage() {
       url: `/api/user`,
       data:{
         name,
+        email,
+        password
+      }
+    })
+
+    return res.data
+  }
+
+  const login = async () => {
+    const res = await axios({
+      method: 'POST',
+      url: `/api/login`,
+      data: {
         email,
         password
       }

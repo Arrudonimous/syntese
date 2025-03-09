@@ -1,24 +1,51 @@
 import { generateToken } from "@/lib/jwt";
 import { comparePassword } from "@/lib/utils";
+import { cookies } from "next/headers";
+import prisma from "@/lib/prisma"; // Certifique-se de importar corretamente o Prisma
 
 export async function POST(req) {
   try {
     const { email, password } = await req.json();
 
     const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    })
-    if (!user) return Response.json({ error: "Usuário não encontrado" }, { status: 401 }, { data: {} }, { type: 'error'});
+      where: { email },
+    });
+
+    if (!user) {
+      return Response.json(
+        { message: "Usuário não encontrado", type: "error", data: {} },
+        { status: 401 }
+      );
+    }
 
     const isValid = await comparePassword(password, user.password);
-    if (!isValid) return Response.json({ error: "Senha inválida" }, { status: 401 }, { data: {} }, { type: 'error'});
+    if (!isValid) {
+      return Response.json(
+        { message: "Senha inválida", type: "error", data: {} },
+        { status: 401 }
+      );
+    }
 
-    const token = generateToken({ userId: user.id, email: user.email });
-    return Response.json({ token }, { status: 200 }, { data: {} }, { type: 'sucess'});
+    const token = await generateToken({ userId: user.id, email: user.email });
 
+    // Agora chamamos cookies() com await antes de set()
+    const cookieStore = await cookies();
+    cookieStore.set("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 7 dias
+      sameSite: "Strict",
+    });
+
+    return Response.json(
+      { type: "success", data: { token }, message: "Logado com sucesso" },
+      { status: 200 }
+    );
   } catch (error) {
-    return Response.json({ error: "Erro interno" }, { status: 500 }, { data: {} }, { type: 'error' });
+    return Response.json(
+      { message: "Erro interno", type: "error", data: {} },
+      { status: 500 }
+    );
   }
 }
