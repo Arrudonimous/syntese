@@ -1,10 +1,13 @@
 "use client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { createContext, useState, useContext, useEffect } from "react";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [isLogged, setIsLogged] = useState(false);
+  const router = useRouter()
 
   const checkAuth = () => {
     const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
@@ -22,12 +25,18 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const handleLoggout = async () => {
+    await axios.post("/api/logout");
+    setIsLogged(false);
+    router.push("/");
+  };
+
   useEffect(() => {
     checkAuth();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLogged, setIsLogged, checkAuth }}>
+    <AuthContext.Provider value={{ isLogged, setIsLogged, checkAuth, handleLoggout }}>
       {children}
     </AuthContext.Provider>
   );

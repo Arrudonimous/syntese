@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 import Image from "next/image"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,14 +12,20 @@ import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
   const { setIsLogged } = useAuth()
+
   const router = useRouter()
+
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [rememberMe, setRememberMe] = useState(false)
 
+
+  const [isLoading, setIsLoading] = useState(false)
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
     try {
       const res = await login()
       toast.success(res.message)
@@ -28,6 +34,8 @@ export default function LoginPage() {
     } catch (error) {
       const response = error.response.data
       toast.error(response.message)
+    } finally{
+      setIsLoading(false)
     }
   }
 
@@ -66,7 +74,12 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700">
+                <Button 
+                  type="submit" 
+                  className="w-full bg-purple-600 hover:bg-purple-700"
+                  disabled={isLoading}
+                >
+                  {isLoading && <Loader2 className="animate-spin" />}
                   Entrar
                 </Button>
               </form>

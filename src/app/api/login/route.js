@@ -37,6 +37,30 @@ export async function POST(req) {
       sameSite: "Strict",
     });
 
+    cookieStore.set("userId", user.id, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 7 dias
+      sameSite: "Strict",
+    })
+
+    cookieStore.set("userEmail", user.email, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 7 dias
+      sameSite: "Strict",
+    })
+
+    cookieStore.set("userName", user.name, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 7 dias
+      sameSite: "Strict",
+    })
+
     return Response.json(
       { type: "success", data: { token }, message: "Logado com sucesso" },
       { status: 200 }

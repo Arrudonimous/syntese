@@ -1,8 +1,7 @@
 import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
-import { NavigationMenu } from "@/components/navigation-menu";
-import { Footer } from "@/components/footer";
 import { AuthProvider } from "@/context/AuthContext";
+import { LayoutWrapper } from "@/components/layout-wrapper";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -46,9 +45,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${poppins.variable} ${inter.variable} antialiased font-poppins`}>
         <AuthProvider>
-          <NavigationMenu />
-          {children}
-          <Footer />
+          <LayoutWrapper>{children}</LayoutWrapper>
         </AuthProvider>
       </body>
     </html>

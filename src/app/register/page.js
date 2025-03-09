@@ -2,7 +2,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Eye, EyeOff, CheckCircle } from "lucide-react"
+import { Eye, EyeOff, CheckCircle, Loader2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -22,16 +22,18 @@ export default function GetStartedPage() {
   const [password, setPassword] = useState("")
   const [agreeTerms, setAgreeTerms] = useState(false)
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-
+    setIsLoading(true)
     try {
       const res = await createUser()
       toast.success(res.message)
       resetFields()
 
-      const loginRes = await login()
+      await login()
 
       setIsLogged(true)
       router.push('/dashboard')
@@ -40,6 +42,8 @@ export default function GetStartedPage() {
     } catch (error) {
       const response = error.response.data
       toast.error(response.message)
+    } finally{
+      setIsLoading(false)
     }
   }
 
@@ -196,7 +200,12 @@ export default function GetStartedPage() {
                     </Label>
                   </div>
 
-                  <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" disabled={!agreeTerms}>
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-purple-600 hover:bg-purple-700" 
+                    disabled={!agreeTerms || isLoading}
+                  >
+                    {isLoading && <Loader2 className="animate-spin" />}
                     Criar conta
                   </Button>
                 </form>

@@ -4,17 +4,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import axios from "axios";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
 export function NavigationMenu() {
   const router = useRouter();
-  const { isLogged, setIsLogged, checkAuth } = useAuth();
-
-  const handleLoggout = async () => {
-    await axios.post("/api/logout");
-    setIsLogged(false);
-    router.push("/");
-  };
+  const { isLogged, setIsLogged, handleLoggout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">
@@ -69,6 +63,59 @@ export function NavigationMenu() {
               </Button>
             </>
           )}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="md:hidden">
+                <Image
+                  src="/images/syntese.png"
+                  alt="Syntese Logo"
+                  width={24}
+                  height={24}
+                />
+                <span className="sr-only">Abrir menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Menu</SheetTitle>
+              </SheetHeader>
+              <nav className="mt-6 flex flex-col gap-4">
+                <Link href="/features" className="text-lg font-medium text-gray-500 hover:text-gray-900">
+                  Funcionalidades
+                </Link>
+                <Link href="/pricing" className="text-lg font-medium text-gray-500 hover:text-gray-900">
+                  Preços
+                </Link>
+                <Link href="/about" className="text-lg font-medium text-gray-500 hover:text-gray-900">
+                  Sobre
+                </Link>
+                <Link href="/contact" className="text-lg font-medium text-gray-500 hover:text-gray-900">
+                  Contato
+                </Link>
+
+                {isLogged ? (
+                  <>
+                    <Button className="mt-4 w-full bg-purple-600 hover:bg-purple-700" onClick={() => router.push('/register')}>
+                      Começar Grátis
+                    </Button>
+                    <Button variant="outline" className="w-full" onClick={() => router.push('/login')}>
+                      Entrar
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                      <Button className="mt-4 w-full bg-purple-600 hover:bg-purple-700" onClick={() => router.push('/dashboard')}>
+                        Dashboard
+                      </Button>
+                      <Button variant="outline" className="w-full" onClick={handleLoggout}>
+                        Sair
+                      </Button>
+                  </>
+                )}
+                
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

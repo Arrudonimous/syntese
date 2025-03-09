@@ -3,32 +3,44 @@
 import { usePathname } from "next/navigation"
 import { DashboardNav } from "@/components/dashboard/dashboard-nav"
 import { UserNav } from "@/components/dashboard/user-nav"
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider } from "@/components/ui/sidebar"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarProvider,
+  useSidebar,
+} from "@/components/ui/sidebar"
 import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
-export function DashboardShell({ children }) {
-  const pathname = usePathname()
+function MobileSidebarTrigger() {
+  const { toggleSidebar } = useSidebar()
 
+  return (
+    <Button variant="outline" size="icon" className="md:hidden" onClick={toggleSidebar}>
+      <Image
+        src="/images/syntese.png"
+        alt="Syntese Logo"
+        width={28}
+        height={28}
+      />
+      <span className="sr-only">Toggle sidebar</span>
+    </Button>
+  )
+}
+
+export function DashboardShell({ children }) {
   return (
     <SidebarProvider defaultOpen>
       <div className="flex min-h-screen flex-col">
         {/* Mobile header */}
         <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 md:hidden">
-          <Button variant="outline" size="icon" className="md:hidden">
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle sidebar</span>
-          </Button>
-          <Link href="/" className="flex items-center space-x-2">
-            <Image
-              src="/images/syntese.png"
-              alt="Syntese Logo"
-              width={28}
-              height={28}
-            />
+          <MobileSidebarTrigger />
+          <Link href="/dashboard" className="flex items-center space-x-2">
             <span className="text-lg font-semibold">Syntese</span>
           </Link>
           <div className="ml-auto flex items-center gap-2">
@@ -39,7 +51,7 @@ export function DashboardShell({ children }) {
         <div className="flex flex-1">
           <Sidebar>
             <SidebarHeader className="flex h-16 items-center border-b px-6">
-              <Link href="/" className="flex items-center space-x-2">
+              <Link href="/dashboard" className="flex items-center space-x-2">
                 <Image
                   src="/images/syntese.png"
                   alt="Syntese Logo"
@@ -52,7 +64,7 @@ export function DashboardShell({ children }) {
             <SidebarContent>
               <DashboardNav />
             </SidebarContent>
-            <SidebarFooter className="flex items-center justify-between p-6">
+            <SidebarFooter className="flex items-center justify-between p-6  flex-row">
               <UserNav />
               <ModeToggle />
             </SidebarFooter>
