@@ -21,45 +21,16 @@ export default function GetStartedPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const foundUser = await findUserByEmail(email)
 
-    if(foundUser){
-      toast.error('Usuário ja cadastrado com esse email', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      })
+    try {
+      const res = await createUser()
+      toast.success(res.message)
 
-      return
+      resetFields()
+    } catch (error) {
+      const response = error.response.data
+      toast.error(response.message)
     }
-
-    await createUser()
-    resetFields()
-
-    toast.success('Usuário cadastrado com sucesso', {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    })
-  }
-
-  const findUserByEmail = async (email) => {
-    const res = await axios({
-      method: 'GET',
-      url: `/api/user?email=${email}`,
-    })
-
-    return res.data
   }
 
   const createUser = async () => {
