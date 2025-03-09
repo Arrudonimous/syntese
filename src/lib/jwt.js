@@ -8,7 +8,7 @@ export async function generateToken(payload) {
     const secret = encoder.encode(SECRET_KEY);
 
     const jwt = await new SignJWT(payload)
-      .setExpirationTime('5s')
+      .setExpirationTime('10h')
       .setProtectedHeader({ alg: 'HS256' })
       .sign(secret);
 
@@ -22,9 +22,8 @@ export async function verifyToken(token) {
   try {
     const encoder = new TextEncoder();
     const secret = encoder.encode(SECRET_KEY);
-
+    
     const { payload } = await jwtVerify(token, secret);
-
     return payload;
   } catch (error) {
     return null;

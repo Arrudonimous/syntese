@@ -3,7 +3,6 @@ import Image from "next/image"
 import { Home, Search } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { NavigationMenu } from "@/components/navigation-menu"
 
 export default function NotFoundPage() {
   return (

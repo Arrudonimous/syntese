@@ -10,8 +10,12 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import axios from "axios"
 import { toast, ToastContainer } from "react-toastify"
+import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "next/navigation"
 
 export default function GetStartedPage() {
+  const { setIsLogged } = useAuth()
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -28,7 +32,10 @@ export default function GetStartedPage() {
       resetFields()
 
       const loginRes = await login()
-      toast.success(loginRes.message)
+
+      setIsLogged(true)
+      router.push('/dashboard')
+    
 
     } catch (error) {
       const response = error.response.data
@@ -207,18 +214,7 @@ export default function GetStartedPage() {
           </div>
         </main>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <ToastContainer position="top-left" autoClose={1000} />
     </>
   )
 }

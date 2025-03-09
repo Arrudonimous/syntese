@@ -28,10 +28,9 @@ export async function POST(req) {
 
     const token = await generateToken({ userId: user.id, email: user.email });
 
-    // Agora chamamos cookies() com await antes de set()
     const cookieStore = await cookies();
     cookieStore.set("token", token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === "production",
       path: "/",
       maxAge: 60 * 60 * 24 * 7, // 7 dias

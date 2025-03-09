@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { verifyToken } from "./lib/jwt";
-import { cookies } from "next/headers"; // Importa cookies corretamente
+import { cookies } from "next/headers";
 
 export async function middleware(req) {
   const cookieStore = await cookies();
@@ -15,7 +15,6 @@ export async function middleware(req) {
   return NextResponse.next();
 }
 
-// Define quais rotas serão protegidas pelo middleware
 export const config = {
-  matcher: ["/dashboard/:path*"], // Protege todas as rotas dentro de /features
+  matcher: ["/dashboard/:path*"],
 };
