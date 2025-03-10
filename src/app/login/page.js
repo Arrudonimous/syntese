@@ -55,7 +55,14 @@ export default function LoginPage() {
               alt="Syntese Logo"
               width={60}
               height={60}
-              className="mx-auto"
+              className="flex dark:hidden mx-auto"
+            />
+            <Image
+              src="/images/syntese-dark.png"
+              alt="Syntese Logo"
+              width={60}
+              height={60}
+              className="hidden dark:flex mx-auto"
             />
             <h1 className="mt-6 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
               Entrar na sua conta

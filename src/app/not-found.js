@@ -45,7 +45,14 @@ export default function NotFoundPage() {
               alt="Syntese Logo"
               width={32}
               height={32}
-              className="mr-2"
+              className="flex dark:hidden mr-2"
+            />
+            <Image
+              src="/images/syntese-dark.png"
+              alt="Syntese Logo"
+              width={32}
+              height={32}
+              className="hidden dark:flex mr-2"
             />
             <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">Syntese</span>
           </div>

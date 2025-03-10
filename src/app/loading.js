@@ -12,7 +12,14 @@ export default function LoadingPage() {
             alt="Syntese Logo"
             width={80}
             height={80}
-            className="relative animate-bounce"
+            className="flex dark:hidden relative animate-bounce"
+          />
+          <Image
+            src="/images/syntese-dark.png"
+            alt="Syntese Logo"
+            width={80}
+            height={80}
+            className="hidden dark:flex relative animate-bounce"
           />
         </div>
 

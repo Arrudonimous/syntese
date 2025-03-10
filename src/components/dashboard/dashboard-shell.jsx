@@ -27,6 +27,14 @@ function MobileSidebarTrigger() {
         alt="Syntese Logo"
         width={28}
         height={28}
+        className="flex dark:hidden"
+      />
+      <Image
+        src="/images/syntese-dark.png"
+        alt="Syntese Logo"
+        width={28}
+        height={28}
+        className="hidden dark:flex"
       />
       <span className="sr-only">Toggle sidebar</span>
     </Button>
@@ -58,6 +66,14 @@ export function DashboardShell({ children }) {
                   alt="Syntese Logo"
                   width={28}
                   height={28}
+                  className="flex dark:hidden"
+                />
+                <Image
+                  src="/images/syntese-dark.png"
+                  alt="Syntese Logo"
+                  width={28}
+                  height={28}
+                  className="hidden dark:flex"
                 />
                 <span className="text-lg font-semibold">Syntese</span>
               </Link>

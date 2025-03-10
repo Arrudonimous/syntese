@@ -8,10 +8,18 @@ export const Footer = () => {
         <div className="flex items-center space-x-2">
           <Image
             src="/images/syntese.png"
-              alt="Syntese Logo"
-              width={24}
-              height={24}
-            />
+            alt="Syntese Logo"
+            width={24}
+            height={24}
+            className="dark:hidden flex"
+          />
+          <Image
+            src="/images/syntese-dark.png"
+            alt="Syntese Logo"
+            width={24}
+            height={24}
+            className="hidden dark:flex"
+          />
           <span className="text-sm text-gray-500 dark:text-gray-400">
             © {new Date().getFullYear()} Syntese. Todos os direitos reservados.
           </span>

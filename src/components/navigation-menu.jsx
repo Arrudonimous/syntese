@@ -21,6 +21,14 @@ export function NavigationMenu() {
               alt="Syntese Logo"
               width={32}
               height={32}
+              className="flex dark:hidden"
+            />
+            <Image
+              src="/images/syntese-dark.png"
+              alt="Syntese Logo"
+              width={32}
+              height={32}
+              className="hidden dark:flex"
             />
           </Link>
           <Link href="/" className="flex items-center space-x-2">
@@ -73,6 +81,14 @@ export function NavigationMenu() {
                   alt="Syntese Logo"
                   width={24}
                   height={24}
+                  className="flex dark:hidden"
+                />
+                <Image
+                  src="/images/syntese-dark.png"
+                  alt="Syntese Logo"
+                  width={24}
+                  height={24}
+                  className="hidden dark:flex"
                 />
                 <span className="sr-only">Abrir menu</span>
               </Button>

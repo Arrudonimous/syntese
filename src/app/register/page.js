@@ -107,7 +107,8 @@ export default function GetStartedPage() {
           <div className="flex items-center justify-center">
             <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800 dark:border dark:border-gray-700">
               <div className="mb-6 text-center">
-                <Image src="/images/syntese.png" alt="Syntese Logo" width={48} height={48} className="mx-auto" />
+                <Image src="/images/syntese.png" alt="Syntese Logo" width={48} height={48} className="mx-auto flex dark:hidden" />
+                <Image src="/images/syntese-dark.png" alt="Syntese Logo" width={48} height={48} className="mx-auto hidden dark:flex" />
                 <h2 className="mt-4 text-2xl font-bold text-gray-900 dark:text-gray-100">Crie sua conta gratuita</h2>
               </div>
               <form className="space-y-6" onSubmit={handleSubmit}>
