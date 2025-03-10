@@ -6,7 +6,7 @@ export default function FeaturesSection(){
   return (
     <section className="px-4 py-16 md:px-6 lg:py-20">
       <div className="container mx-auto">
-        <h2 className="text-center text-4xl font-bold tracking-tighter text-gray-900 sm:text-5xl">
+        <h2 className="text-center text-4xl font-bold tracking-tighter text-gray-900 sm:text-5xl dark:text-gray-100">
           Funcionalidades Principais
         </h2>
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">

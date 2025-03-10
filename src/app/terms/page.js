@@ -2,13 +2,13 @@ import Link from "next/link"
 
 export default function TermsOfUsePage() {
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 dark:from-gray-900 dark:via-purple-950/30 dark:to-indigo-950/40">
       <main className="flex-1 px-4 py-12 md:px-6 lg:py-16">
         <div className="container mx-auto max-w-4xl">
-          <h1 className="mb-8 text-center text-4xl font-bold tracking-tighter text-gray-900 sm:text-5xl">
+          <h1 className="mb-8 text-center text-4xl font-bold tracking-tighter text-gray-900 sm:text-5xl dark:text-gray-100">
             Termos de Uso
           </h1>
-          <div className="prose prose-lg mx-auto">
+          <div className="prose prose-lg mx-auto dark:prose-invert" >
             <p>
               Bem-vindo aos Termos de Uso do Syntese. Ao acessar ou usar nosso serviço, você concorda em cumprir estes
               termos. Por favor, leia-os atentamente.

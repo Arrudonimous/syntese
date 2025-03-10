@@ -38,19 +38,20 @@ export function DashboardShell({ children }) {
     <SidebarProvider defaultOpen>
       <div className="flex min-h-screen flex-col">
         {/* Mobile header */}
-        <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 md:hidden">
+        <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 md:hidden dark:bg-gray-950/80 dark:border-gray-800">
           <MobileSidebarTrigger />
           <Link href="/dashboard" className="flex items-center space-x-2">
             <span className="text-lg font-semibold">Syntese</span>
           </Link>
           <div className="ml-auto flex items-center gap-2">
             <UserNav />
+            <ModeToggle />
           </div>
         </header>
 
         <div className="flex flex-1">
           <Sidebar>
-            <SidebarHeader className="flex h-16 items-center border-b px-6">
+            <SidebarHeader className="flex h-16 items-center border-b px-6 dark:border-gray-800">
               <Link href="/dashboard" className="flex items-center space-x-2">
                 <Image
                   src="/images/syntese.png"
@@ -64,13 +65,13 @@ export function DashboardShell({ children }) {
             <SidebarContent>
               <DashboardNav />
             </SidebarContent>
-            <SidebarFooter className="flex items-center justify-between p-6  flex-row">
+            <SidebarFooter className="flex items-center justify-between p-6 flex-row">
               <UserNav />
               <ModeToggle />
             </SidebarFooter>
           </Sidebar>
 
-          <main className="flex-1 overflow-x-hidden bg-muted/40 pb-16 pt-8">
+          <main className="flex-1 overflow-x-hidden bg-muted/40 dark:bg-background/5 pb-16 pt-8">
             <div className="container space-y-8">{children}</div>
           </main>
         </div>

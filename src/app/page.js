@@ -7,7 +7,7 @@ import CTASection from "@/components/sections/cta"
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 dark:from-gray-900 dark:via-purple-950/30 dark:to-indigo-950/40">
       <main className="flex-1">
         <HeroSection />
         <UserGroupsSection />

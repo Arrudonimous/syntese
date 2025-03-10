@@ -4,14 +4,15 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export function NavigationMenu() {
   const router = useRouter();
   const { isLogged, setIsLogged, handleLoggout } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm dark:bg-gray-950/80 dark:border-gray-800">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <div className="flex space-x-3">
           <Link href="/" className="lg:flex items-center hidden sm:block">
@@ -28,34 +29,35 @@ export function NavigationMenu() {
         </div>
         {!isLogged && (
           <nav className="hidden gap-6 md:flex">
-            <Link href="/features" className="text-sm font-medium text-gray-500 hover:text-gray-900">
+            <Link href="/features" className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
               Funcionalidades
             </Link>
-            <Link href="/pricing" className="text-sm font-medium text-gray-500 hover:text-gray-900">
+            <Link href="/pricing" className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
               Preços
             </Link>
-            <Link href="/about" className="text-sm font-medium text-gray-500 hover:text-gray-900">
+            <Link href="/about" className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
               Sobre
             </Link>
-            <Link href="/contact" className="text-sm font-medium text-gray-500 hover:text-gray-900">
+            <Link href="/contact" className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
               Contato
             </Link>
           </nav>
         )}
 
         <div className="flex items-center gap-4">
+          <ModeToggle />
           {!isLogged ? (
             <>
               <Button variant="ghost" className="hidden md:inline-flex" onClick={() => router.push("/login")}>
                 Entrar
               </Button>
-              <Button className="hidden bg-purple-600 hover:bg-purple-700 md:inline-flex" onClick={() => router.push("/register")}>
+              <Button className="hidden bg-purple-600 hover:bg-purple-700 md:inline-flex dark:bg-purple-700 dark:hover:bg-purple-800" onClick={() => router.push("/register")}>
                 Começar Grátis
               </Button>
             </>
           ) : (
             <>
-              <Button className="hidden bg-purple-600 hover:bg-purple-700 md:inline-flex" onClick={() => router.push("/dashboard")}>
+              <Button className="hidden bg-purple-600 hover:bg-purple-700 md:inline-flex dark:bg-purple-700 dark:hover:bg-purple-800" onClick={() => router.push("/dashboard")}>
                 Dashboard
               </Button>
               <Button variant="ghost" className="hidden md:inline-flex" onClick={handleLoggout}>
@@ -80,22 +82,21 @@ export function NavigationMenu() {
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
               <nav className="mt-6 flex flex-col gap-4">
-                <Link href="/features" className="text-lg font-medium text-gray-500 hover:text-gray-900">
+                <Link href="/features" className="text-lg font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
                   Funcionalidades
                 </Link>
-                <Link href="/pricing" className="text-lg font-medium text-gray-500 hover:text-gray-900">
+                <Link href="/pricing" className="text-lg font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
                   Preços
                 </Link>
-                <Link href="/about" className="text-lg font-medium text-gray-500 hover:text-gray-900">
+                <Link href="/about" className="text-lg font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
                   Sobre
                 </Link>
-                <Link href="/contact" className="text-lg font-medium text-gray-500 hover:text-gray-900">
+                <Link href="/contact" className="text-lg font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
                   Contato
                 </Link>
-
                 {isLogged ? (
                   <>
-                    <Button className="mt-4 w-full bg-purple-600 hover:bg-purple-700" onClick={() => router.push('/register')}>
+                    <Button className="mt-4 w-full bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-800" onClick={() => router.push('/register')}>
                       Começar Grátis
                     </Button>
                     <Button variant="outline" className="w-full" onClick={() => router.push('/login')}>
@@ -104,15 +105,14 @@ export function NavigationMenu() {
                   </>
                 ) : (
                   <>
-                      <Button className="mt-4 w-full bg-purple-600 hover:bg-purple-700" onClick={() => router.push('/dashboard')}>
-                        Dashboard
-                      </Button>
-                      <Button variant="outline" className="w-full" onClick={handleLoggout}>
-                        Sair
-                      </Button>
+                    <Button className="mt-4 w-full bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-800" onClick={() => router.push('/dashboard')}>
+                      Dashboard
+                    </Button>
+                    <Button variant="outline" className="w-full" onClick={handleLoggout}>
+                      Sair
+                    </Button>
                   </>
                 )}
-                
               </nav>
             </SheetContent>
           </Sheet>

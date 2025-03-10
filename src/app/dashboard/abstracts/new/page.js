@@ -31,12 +31,18 @@ export default function NovoResumoPage() {
     // Simulate API call with timeout
     setTimeout(() => {
       // This is where you would call your actual API
-      const fakeSummary = `Este é um resumo automático gerado com base no texto fornecido. O resumo foi configurado para ser ${summaryStyle} e ter aproximadamente ${summaryLength}% do tamanho original. O texto aborda temas importantes relacionados à educação e tecnologia, destacando como ferramentas de inteligência artificial podem auxiliar no processo de aprendizagem. ${includeKeyPoints ? ` Pontos-chave:
-        • A integração de tecnologia na educação é essencial
-        • Ferramentas de IA podem personalizar a experiência de aprendizado
-        • O uso de resumos automáticos economiza tempo para estudantes
-        • A adaptação a novos métodos de estudo é fundamental para o sucesso acadêmico`
-                  : ""
+      const fakeSummary = `Este é um resumo automático gerado com base no texto fornecido. O resumo foi configurado para ser ${summaryStyle} e ter aproximadamente ${summaryLength}% do tamanho original.
+
+O texto aborda temas importantes relacionados à educação e tecnologia, destacando como ferramentas de inteligência artificial podem auxiliar no processo de aprendizagem. 
+
+${includeKeyPoints
+          ? `
+Pontos-chave:
+• A integração de tecnologia na educação é essencial
+• Ferramentas de IA podem personalizar a experiência de aprendizado
+• O uso de resumos automáticos economiza tempo para estudantes
+• A adaptação a novos métodos de estudo é fundamental para o sucesso acadêmico`
+          : ""
         }
 
 Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimizar seus estudos e aumentar sua produtividade.`
@@ -91,7 +97,7 @@ Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimiza
               <CardDescription>Envie um arquivo PDF, DOCX ou TXT para resumir</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed p-10">
+              <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed p-10 dark:border-gray-700">
                 <FileUp className="h-10 w-10 text-muted-foreground" />
                 <p className="text-sm text-muted-foreground">
                   Arraste e solte seu arquivo aqui ou clique para selecionar
@@ -164,7 +170,9 @@ Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimiza
               <CardDescription>Seu resumo foi gerado com sucesso</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="whitespace-pre-line rounded-md border bg-muted p-4">{generatedSummary}</div>
+              <div className="whitespace-pre-line rounded-md border bg-muted p-4 dark:bg-muted/20">
+                {generatedSummary}
+              </div>
             </CardContent>
             <CardFooter className="flex justify-between">
               <div className="flex gap-2">
