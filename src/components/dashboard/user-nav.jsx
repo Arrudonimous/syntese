@@ -13,27 +13,33 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from "@/context/AuthContext"
 import { LogOut, Settings, User } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export function UserNav() {
   const { handleLoggout } = useAuth();
+  const [userEmail, setUserEmail] = useState(null);
+  const [userName, setUserName] = useState(null);
 
-  const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
-    const [name, value] = cookie.split("=");
-    acc[name] = decodeURIComponent(value);
-    return acc;
-  }, {})
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
+        const [name, value] = cookie.split("=");
+        acc[name] = decodeURIComponent(value);
+        return acc;
+      }, {});
 
-  console.log(cookies.userEmail)
+      setUserEmail(cookies.userEmail || "email@email.com"); // Valor padrão caso não exista
+      setUserName(cookies.userName || "Usuário"); // Valor padrão caso não exista
+    }
+  }, []);
 
-  const { userEmail, userName } = cookies
-  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="/placeholder.svg?height=32&width=32" alt={userName} />
-            <AvatarFallback>{userName.slice(0, 2)}</AvatarFallback>
+            <AvatarImage src="/placeholder.svg?height=32&width=32" alt={userName || "Avatar"} />
+            <AvatarFallback>{userName ? userName.slice(0, 2) : "U"}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -64,4 +70,3 @@ export function UserNav() {
     </DropdownMenu>
   )
 }
-
