@@ -110,7 +110,7 @@ export function NavigationMenu() {
                 <Link href="/contact" className="text-lg font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
                   Contato
                 </Link>
-                {isLogged ? (
+                {!isLogged ? (
                   <>
                     <Button className="mt-4 w-full bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-800" onClick={() => router.push('/register')}>
                       Começar Grátis
