@@ -61,7 +61,7 @@ Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimiza
     <DashboardShell>
       <DashboardHeader heading="Novo Resumo" text="Gere um resumo automático a partir de texto ou documento.">
         <Button variant="outline" asChild>
-          <Link href="/dashboard/resumos">
+          <Link href="/dashboard/abstracts">
             <ArrowLeft className="mr-2 h-4 w-4" /> Voltar
           </Link>
         </Button>

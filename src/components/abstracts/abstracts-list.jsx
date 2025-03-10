@@ -116,12 +116,12 @@ export function AbstractsList() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem asChild>
-                        <Link href={`/dashboard/resumos/${resumo.id}`}>
+                        <Link href={`/dashboard/abstracts/${resumo.id}`}>
                           <FileText className="mr-2 h-4 w-4" /> Ver
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
-                        <Link href={`/dashboard/resumos/${resumo.id}/editar`}>
+                        <Link href={`/dashboard/abstracts/${resumo.id}/edit`}>
                           <Pencil className="mr-2 h-4 w-4" /> Editar
                         </Link>
                       </DropdownMenuItem>

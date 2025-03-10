@@ -46,23 +46,32 @@ export function DashboardNav() {
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === "/dashboard/resumos"}>
-                <Link href="/dashboard/resumos">
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === "/dashboard/abstracts" || pathname.startsWith("/dashboard/abstracts/")}
+              >
+                <Link href="/dashboard/abstracts">
                   <Zap className="h-4 w-4" />
                   <span>Resumo Automático</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === "/dashboard/citacoes"}>
-                <Link href="/dashboard/citacoes">
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === "/dashboard/quotes" || pathname.startsWith("/dashboard/quotes/")}
+              >
+                <Link href="/dashboard/quotes">
                   <BookOpen className="h-4 w-4" />
                   <span>Gerador de Citações</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === "/dashboard/flashcards"}>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === "/dashboard/flashcards" || pathname.startsWith("/dashboard/flashcards/")}
+              >
                 <Link href="/dashboard/flashcards">
                   <Brain className="h-4 w-4" />
                   <span>Flashcards</span>
@@ -70,7 +79,10 @@ export function DashboardNav() {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === "/dashboard/emails"}>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === "/dashboard/emails" || pathname.startsWith("/dashboard/emails/")}
+              >
                 <Link href="/dashboard/emails">
                   <Mail className="h-4 w-4" />
                   <span>Automação de E-mails</span>
@@ -86,7 +98,10 @@ export function DashboardNav() {
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === "/dashboard/documentos"}>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === "/dashboard/documentos" || pathname.startsWith("/dashboard/documentos/")}
+              >
                 <Link href="/dashboard/documentos">
                   <FileText className="h-4 w-4" />
                   <span>Meus Documentos</span>
@@ -115,3 +130,4 @@ export function DashboardNav() {
     </>
   )
 }
+

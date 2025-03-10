@@ -44,7 +44,7 @@ function MobileSidebarTrigger() {
 export function DashboardShell({ children }) {
   return (
     <SidebarProvider defaultOpen>
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-screen flex-col w-full">
         {/* Mobile header */}
         <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 md:hidden dark:bg-gray-950/80 dark:border-gray-800">
           <MobileSidebarTrigger />

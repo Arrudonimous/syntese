@@ -13,25 +13,25 @@ export default function FeaturesSection(){
           <FeatureCard
             title="Resumo Automático"
             description="Transforme textos longos em resumos concisos, ideal para estudos e relatórios profissionais."
-            href="/resumo"
+            href="/dashboard/abstracts"
             icon={<Zap className="h-8 w-8 text-purple-500" />}
           />
           <FeatureCard
             title="Gerador de Citações"
             description="Crie citações profissionais em diferentes formatos acadêmicos para seus trabalhos e artigos."
-            href="/citacoes"
+            href="/dashboard/quotes"
             icon={<BookOpen className="h-8 w-8 text-teal-500" />}
           />
           <FeatureCard
             title="Flashcards Inteligentes"
             description="Estude e memorize informações de forma eficiente, perfeito para estudantes e profissionais em constante aprendizado."
-            href="/flashcards"
+            href="/dashboard/flashcards"
             icon={<Brain className="h-8 w-8 text-orange-500" />}
           />
           <FeatureCard
             title="Automação de E-mails"
             description="Crie e-mails profissionais rapidamente, economizando tempo e melhorando a comunicação no trabalho."
-            href="/emails"
+            href="/dashboard/emails"
             icon={<Mail className="h-8 w-8 text-blue-500" />}
           />
         </div>

@@ -5,6 +5,11 @@ import Link from "next/link"
 import { Plus } from "lucide-react"
 import { AbstractsList } from "@/components/abstracts/abstracts-list"
 
+export const metadata = {
+  title: "Resumos Automáticos | Syntese",
+  description: "Gerencie seus resumos automáticos",
+}
+
 export default function AbstractsPage() {
   return (
     <DashboardShell>
