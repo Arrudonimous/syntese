@@ -7,7 +7,7 @@ const actions = [
     title: "Resumo",
     description: "Criar um novo resumo",
     icon: <Zap className="h-5 w-5" />,
-    href: "/dashboard/resumos/novo",
+    href: "/dashboard/abstracts/new",
     color: "text-purple-500",
     bgColor: "bg-purple-100",
   },
