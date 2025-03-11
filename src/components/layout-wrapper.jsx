@@ -8,6 +8,9 @@ export function LayoutWrapper({ children }) {
   const pathname = usePathname();
   const isDashboardPath = pathname.startsWith("/dashboard");
 
+
+  console.log(pathname)
+
   return (
     <>
       {!isDashboardPath && <NavigationMenu />}

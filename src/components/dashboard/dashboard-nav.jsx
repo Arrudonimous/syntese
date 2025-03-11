@@ -100,9 +100,9 @@ export function DashboardNav() {
             <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
-                isActive={pathname === "/dashboard/documentos" || pathname.startsWith("/dashboard/documentos/")}
+                isActive={pathname === "/dashboard/documents" || pathname.startsWith("/dashboard/documents/")}
               >
-                <Link href="/dashboard/documentos">
+                <Link href="/dashboard/documents">
                   <FileText className="h-4 w-4" />
                   <span>Meus Documentos</span>
                 </Link>
@@ -117,8 +117,8 @@ export function DashboardNav() {
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === "/dashboard/configuracoes"}>
-                <Link href="/dashboard/configuracoes">
+              <SidebarMenuButton asChild isActive={pathname === "/dashboard/settings"}>
+                <Link href="/dashboard/settings">
                   <Settings className="h-4 w-4" />
                   <span>Configurações</span>
                 </Link>
