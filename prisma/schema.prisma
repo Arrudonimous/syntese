@@ -14,4 +14,28 @@ model User {
   name  String
   password String
   createdAt DateTime @default(now())
+  abstracts Abstract[]
+}
+
+
+
+model Abstract{
+  id    String @id @default(uuid())
+  title  String
+  description  String
+
+  abstractType  AbstractType @relation(fields: [abstractTypeID], references: [id])
+  abstractTypeID Int
+
+  user  User @relation(fields: [userID], references: [id])
+  userID String
+  
+  createdAt DateTime @default(now())
+}
+
+
+model AbstractType{
+  id    Int @id @default(autoincrement())
+  type  String
+  abstracts Abstract[]
 }
