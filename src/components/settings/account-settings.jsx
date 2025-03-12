@@ -6,23 +6,24 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { useToast } from "@/hooks/use-toast"
 
 export function AccountSettings() {
+  const { toast } = useToast()
   const handlePasswordChange = (e) => {
     e.preventDefault()
-    // toast({
-    //   title: "Senha atualizada",
-    //   description: "Sua senha foi atualizada com sucesso.",
-    // })
+    toast({
+      title: "Senha atualizada",
+      description: "Sua senha foi atualizada com sucesso.",
+    })
   }
 
   const handleDeleteAccount = () => {
-    // Aqui você adicionaria uma confirmação antes de excluir a conta
-    // toast({
-    //   title: "Ação requer confirmação",
-    //   description: "Para excluir sua conta, confirme por e-mail primeiro.",
-    //   variant: "destructive",
-    // })
+    toast({
+      title: "Ação requer confirmação",
+      description: "Para excluir sua conta, confirme por e-mail primeiro.",
+      variant: "destructive",
+    })
   }
 
   return (

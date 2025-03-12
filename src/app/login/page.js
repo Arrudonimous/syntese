@@ -8,13 +8,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import { NavigationMenu } from "@/components/navigation-menu"
 import axios from "axios"
-import { toast, ToastContainer } from "react-toastify"
+import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/context/AuthContext"
 import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
+  const { toast } = useToast()
   const { setIsLogged } = useAuth()
   const router = useRouter()
 
@@ -29,12 +29,18 @@ export default function LoginPage() {
     setIsLoading(true)
     try {
       const res = await login()
-      toast.success(res.message)
+      toast({
+        description: res.message,
+      })
       setIsLogged(true)
       router.push("/dashboard")
+
     } catch (error) {
       const response = error.response.data
-      toast.error(response.message)
+
+      toast({
+        description: response.message,
+      })
     } finally {
       setIsLoading(false)
     }
@@ -142,7 +148,6 @@ export default function LoginPage() {
           </div>
         </div>
       </main>
-      <ToastContainer position="top-left" autoClose={2000} />
     </div>
   )
 }

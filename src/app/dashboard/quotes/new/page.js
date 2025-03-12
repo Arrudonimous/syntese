@@ -11,9 +11,10 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { ArrowLeft, Copy, Save, Download, FileUp, Sparkles } from "lucide-react"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function NovaCitacaoPage() {
+  const router = useRouter()
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
   const [year, setYear] = useState("")
@@ -65,10 +66,8 @@ export default function NovaCitacaoPage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Nova Citação" text="Gere uma citação acadêmica em diversos formatos.">
-        <Button variant="outline" asChild>
-          <Link href="/dashboard/quotes">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Voltar
-          </Link>
+        <Button variant="outline" onClick={() => router.back()}>
+          <ArrowLeft className="mr-2 h-4 w-4" /> Voltar
         </Button>
       </DashboardHeader>
 

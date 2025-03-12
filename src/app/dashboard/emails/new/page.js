@@ -16,8 +16,10 @@ import { ArrowLeft, Mail, Copy, Send, Save, Sparkles, Maximize2, Minimize2 } fro
 import Link from "next/link"
 import { EmailEditor } from "@/components/emails/email-editor"
 import { EmailPreview } from "@/components/emails/email-preview"
+import { useRouter } from "next/navigation"
 
 export default function NewEmailPage() {
+  const router = useRouter()
   const [purpose, setPurpose] = useState("")
   const [recipient, setRecipient] = useState("")
   const [subject, setSubject] = useState("")
@@ -152,10 +154,8 @@ Aguardo seu retorno.`
   return (
     <DashboardShell>
       <DashboardHeader heading="Criar Novo E-mail" text="Gere e-mails profissionais rapidamente com assistência de IA.">
-        <Button variant="outline" asChild>
-          <Link href="/dashboard/emails">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Voltar
-          </Link>
+        <Button variant="outline" onClick={() => router.back()}>
+          <ArrowLeft className="mr-2 h-4 w-4" /> Voltar
         </Button>
       </DashboardHeader>
 

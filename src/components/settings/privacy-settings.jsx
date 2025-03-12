@@ -9,17 +9,17 @@ import { Separator } from "@/components/ui/separator"
 
 export function PrivacySettings() {
   const handleSave = () => {
-    // toast({
-    //   title: "Configurações de privacidade salvas",
-    //   description: "Suas configurações de privacidade foram atualizadas com sucesso.",
-    // })
+    toast({
+      title: "Configurações de privacidade salvas",
+      description: "Suas configurações de privacidade foram atualizadas com sucesso.",
+    })
   }
 
   const handleDataExport = () => {
-    // toast({
-    //   title: "Solicitação enviada",
-    //   description: "Sua solicitação de exportação de dados foi enviada. Você receberá um e-mail em breve.",
-    // })
+    toast({
+      title: "Solicitação enviada",
+      description: "Sua solicitação de exportação de dados foi enviada. Você receberá um e-mail em breve.",
+    })
   }
 
   return (

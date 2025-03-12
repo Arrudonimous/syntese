@@ -10,12 +10,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import axios from "axios"
-import { toast, ToastContainer } from "react-toastify"
+import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/context/AuthContext"
 import { useRouter } from "next/navigation"
-import { NavigationMenu } from "@/components/navigation-menu"
 
 export default function GetStartedPage() {
+  const { toast } = useToast()
   const { setIsLogged } = useAuth()
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
@@ -30,7 +30,9 @@ export default function GetStartedPage() {
     setIsLoading(true)
     try {
       const res = await createUser()
-      toast.success(res.message)
+      toast({
+        description: res.message,
+      })
       resetFields()
 
       await login()
@@ -39,7 +41,9 @@ export default function GetStartedPage() {
       router.push("/dashboard")
     } catch (error) {
       const response = error.response.data
-      toast.error(response.message)
+      toast({
+        description: response.message,
+      })
     } finally {
       setIsLoading(false)
     }
@@ -148,7 +152,6 @@ export default function GetStartedPage() {
           </div>
         </div>
       </main>
-      <ToastContainer position="top-left" autoClose={1000} />
     </div>
   )
 }

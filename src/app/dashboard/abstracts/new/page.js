@@ -14,8 +14,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch"
 import { FileUp, Sparkles, ArrowLeft, Copy, Save, Download } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from 'next/navigation'
 
 export default function NovoResumoPage() {
+  const router = useRouter()
   const [inputText, setInputText] = useState("")
   const [summaryLength, setSummaryLength] = useState([50])
   const [summaryStyle, setSummaryStyle] = useState("conciso")
@@ -60,10 +62,8 @@ Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimiza
   return (
     <DashboardShell>
       <DashboardHeader heading="Novo Resumo" text="Gere um resumo automático a partir de texto ou documento.">
-        <Button variant="outline" asChild>
-          <Link href="/dashboard/abstracts">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Voltar
-          </Link>
+        <Button variant="outline" onClick={() => router.back()}>
+          <ArrowLeft className="mr-2 h-4 w-4" /> Voltar
         </Button>
       </DashboardHeader>
 

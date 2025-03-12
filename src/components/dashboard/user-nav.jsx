@@ -14,8 +14,10 @@ import {
 import { useAuth } from "@/context/AuthContext"
 import { LogOut, Settings, User } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useRouter } from 'next/navigation'
 
 export function UserNav() {
+  const router = useRouter()
   const { handleLoggout } = useAuth();
   const [userEmail, setUserEmail] = useState(null);
   const [userName, setUserName] = useState(null);
@@ -52,11 +54,11 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push('/dashboard/settings')}>
             <User className="mr-2 h-4 w-4" />
             <span>Perfil</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push('/dashboard/settings')}>
             <Settings className="mr-2 h-4 w-4" />
             <span>Configurações</span>
           </DropdownMenuItem>

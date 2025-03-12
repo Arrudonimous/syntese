@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useToast } from "@/hooks/use-toast"
 
 const profileFormSchema = z.object({
   name: z.string().min(2, {
@@ -31,6 +32,7 @@ const profileFormSchema = z.object({
 })
 
 export function ProfileSettings() {
+  const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm({
@@ -49,10 +51,10 @@ export function ProfileSettings() {
     // Simula uma chamada de API
     setTimeout(() => {
       setIsLoading(false)
-      // toast({
-      //   title: "Perfil atualizado",
-      //   description: "Suas informações de perfil foram atualizadas com sucesso.",
-      // })
+      toast({
+        title: "Perfil atualizado",
+        description: "Suas informações de perfil foram atualizadas com sucesso.",
+      })
       console.log(data)
     }, 1000)
   }

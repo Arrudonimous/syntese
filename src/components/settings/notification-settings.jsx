@@ -4,13 +4,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import { useToast } from "@/hooks/use-toast"
 
 export function NotificationSettings() {
+  const { toast } = useToast()
   const handleSave = () => {
-    // toast({
-    //   title: "Preferências de notificação salvas",
-    //   description: "Suas preferências de notificação foram atualizadas com sucesso.",
-    // })
+    toast({
+      title: "Preferências de notificação salvas",
+      description: "Suas preferências de notificação foram atualizadas com sucesso.",
+    })
   }
 
   return (

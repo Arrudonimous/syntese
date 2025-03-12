@@ -7,16 +7,19 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useTheme } from "next-themes"
 import { Check } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+
 
 export function AppearanceSettings() {
+  const { toast } = useToast()
   const { theme, setTheme } = useTheme()
   const [fontSize, setFontSize] = useState("medium")
 
   const handleSave = () => {
-    // toast({
-    //   title: "Aparência atualizada",
-    //   description: "Suas preferências de aparência foram salvas.",
-    // })
+    toast({
+      title: "Aparência atualizada",
+      description: "Suas preferências de aparência foram salvas.",
+    })
   }
 
   return (

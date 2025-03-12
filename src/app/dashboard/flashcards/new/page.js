@@ -12,10 +12,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, Save, Plus, FileUp, Sparkles } from "lucide-react"
-import Link from "next/link"
 import { FlashcardEditor } from "@/components/flashcards/flashcard-editor"
+import { useRouter } from "next/navigation"
 
 export default function NovoFlashcardDeckPage() {
+  const router = useRouter()
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
@@ -74,10 +75,8 @@ export default function NovoFlashcardDeckPage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Novo Deck de Flashcards" text="Crie um conjunto de flashcards para estudo.">
-        <Button variant="outline" asChild>
-          <Link href="/dashboard/flashcards">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Voltar
-          </Link>
+        <Button variant="outline" onClick={() => router.back()}>
+          <ArrowLeft className="mr-2 h-4 w-4" /> Voltar
         </Button>
       </DashboardHeader>
 
