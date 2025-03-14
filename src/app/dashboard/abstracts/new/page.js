@@ -13,49 +13,72 @@ import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { FileUp, Sparkles, ArrowLeft, Copy, Save, Download } from "lucide-react"
-import Link from "next/link"
 import { useRouter } from 'next/navigation'
+import axios from "axios"
+import { useToast } from "@/hooks/use-toast"
 
 export default function NovoResumoPage() {
+  const { toast } = useToast()
   const router = useRouter()
-  const [inputText, setInputText] = useState("")
-  const [summaryLength, setSummaryLength] = useState([50])
-  const [summaryStyle, setSummaryStyle] = useState("conciso")
+  const [prompt, setPrompt] = useState("")
+  const [abstractSize, setAbstractSize] = useState([50])
+  const [abstractType, setAbstractType] = useState("conciso")
   const [includeKeyPoints, setIncludeKeyPoints] = useState(true)
   const [isGenerating, setIsGenerating] = useState(false)
-  const [generatedSummary, setGeneratedSummary] = useState("")
+  const [generatedAbstract, setGeneratedAbstract] = useState("")
 
-  const handleGenerate = () => {
-    if (!inputText.trim()) return
+  const handleGenerate = async () => {
+    if (!prompt.trim()) return
 
-    setIsGenerating(true)
+
+    try {
+      setIsGenerating(true)
+      const abstractSizeValue = abstractSize[0]
+      const response = await axios.post("/api/abstracts", { prompt, abstractType, abstractSize: abstractSizeValue, includeKeyPoints })
+
+      console.log(response.data)
+
+      setGeneratedAbstract(response.data.data)
+
+      toast({
+        description: response.data.message,
+      })
+    } catch (error) {
+      console.log(error)
+      const response = error.response.data
+      toast({
+        description: response.message,
+      })
+    } finally {
+      setIsGenerating(false)
+    }
 
     // Simulate API call with timeout
-    setTimeout(() => {
-      // This is where you would call your actual API
-      const fakeSummary = `Este é um resumo automático gerado com base no texto fornecido. O resumo foi configurado para ser ${summaryStyle} e ter aproximadamente ${summaryLength}% do tamanho original.
+//     setTimeout(() => {
+//       // This is where you would call your actual API
+//       const fakeSummary = `Este é um resumo automático gerado com base no texto fornecido. O resumo foi configurado para ser ${abstractType} e ter aproximadamente ${abstractSize}% do tamanho original.
 
-O texto aborda temas importantes relacionados à educação e tecnologia, destacando como ferramentas de inteligência artificial podem auxiliar no processo de aprendizagem. 
+// O texto aborda temas importantes relacionados à educação e tecnologia, destacando como ferramentas de inteligência artificial podem auxiliar no processo de aprendizagem. 
 
-${includeKeyPoints
-          ? `
-Pontos-chave:
-• A integração de tecnologia na educação é essencial
-• Ferramentas de IA podem personalizar a experiência de aprendizado
-• O uso de resumos automáticos economiza tempo para estudantes
-• A adaptação a novos métodos de estudo é fundamental para o sucesso acadêmico`
-          : ""
-        }
+// ${includeKeyPoints
+//           ? `
+// Pontos-chave:
+// • A integração de tecnologia na educação é essencial
+// • Ferramentas de IA podem personalizar a experiência de aprendizado
+// • O uso de resumos automáticos economiza tempo para estudantes
+// • A adaptação a novos métodos de estudo é fundamental para o sucesso acadêmico`
+//           : ""
+//         }
 
-Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimizar seus estudos e aumentar sua produtividade.`
+// Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimizar seus estudos e aumentar sua produtividade.`
 
-      setGeneratedSummary(fakeSummary)
-      setIsGenerating(false)
-    }, 2000)
+//       setGeneratedAbstract(fakeSummary)
+//       setIsGenerating(false)
+//     }, 2000)
   }
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(generatedSummary)
+    navigator.clipboard.writeText(generatedAbstract)
     // You could add a toast notification here
   }
 
@@ -83,8 +106,8 @@ Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimiza
               <Textarea
                 placeholder="Cole ou digite seu texto aqui..."
                 className="min-h-[200px]"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
               />
             </CardContent>
           </Card>
@@ -117,22 +140,22 @@ Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimiza
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="summary-length">Tamanho do resumo</Label>
-                <span className="text-sm text-muted-foreground">{summaryLength}%</span>
+                <span className="text-sm text-muted-foreground">{abstractSize}%</span>
               </div>
               <Slider
                 id="summary-length"
                 min={10}
                 max={90}
                 step={5}
-                value={summaryLength}
-                onValueChange={setSummaryLength}
+                value={abstractSize}
+                onValueChange={setAbstractSize}
               />
               <p className="text-xs text-muted-foreground">Porcentagem do tamanho do texto original</p>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="summary-style">Estilo do resumo</Label>
-              <Select value={summaryStyle} onValueChange={setSummaryStyle}>
+              <Select value={abstractType} onValueChange={setAbstractType}>
                 <SelectTrigger id="summary-style">
                   <SelectValue placeholder="Selecione um estilo" />
                 </SelectTrigger>
@@ -151,7 +174,7 @@ Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimiza
             </div>
           </CardContent>
           <CardFooter>
-            <Button onClick={handleGenerate} disabled={!inputText.trim() || isGenerating} className="w-full">
+            <Button onClick={handleGenerate} disabled={!prompt.trim() || isGenerating} className="w-full">
               {isGenerating ? (
                 <>Gerando resumo...</>
               ) : (
@@ -163,7 +186,7 @@ Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimiza
           </CardFooter>
         </Card>
 
-        {generatedSummary && (
+        {generatedAbstract && (
           <Card>
             <CardHeader>
               <CardTitle>Resumo Gerado</CardTitle>
@@ -171,7 +194,7 @@ Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimiza
             </CardHeader>
             <CardContent>
               <div className="whitespace-pre-line rounded-md border bg-muted p-4 dark:bg-muted/20">
-                {generatedSummary}
+                {generatedAbstract}
               </div>
             </CardContent>
             <CardFooter className="flex justify-between">
