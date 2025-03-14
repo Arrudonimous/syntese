@@ -1,3 +1,8 @@
+export const metadata = {
+  title: "Resumos Automáticos | Syntese",
+  description: "Gerencie seus resumos automáticos",
+}
+
 export function DashboardHeader({ heading, text, children }) {
   return (
     <div className="mb-8 flex items-center justify-between">

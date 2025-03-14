@@ -19,16 +19,19 @@ model User {
 
 
 
-model Abstract{
-  id    String @id @default(uuid())
-  title  String
-  description  String
+model Abstract {
+  id            String       @id @default(uuid())
+  title         String
+  description   String
+  wordsCount    Int
   abstractType  AbstractType @relation(fields: [abstractTypeID], references: [id])
   abstractTypeID Int
-  user  User @relation(fields: [userID], references: [id])
-  userID String
-  createdAt DateTime @default(now())
+  user          User         @relation(fields: [userID], references: [id])
+  userID        String
+  createdAt     DateTime     @default(now())
+  tags          String[]     // Adiciona o campo de tags como um array de strings
 }
+
 
 
 model AbstractType{

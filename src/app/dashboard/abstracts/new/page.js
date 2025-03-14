@@ -22,10 +22,29 @@ export default function NovoResumoPage() {
   const router = useRouter()
   const [prompt, setPrompt] = useState("")
   const [abstractSize, setAbstractSize] = useState([50])
-  const [abstractType, setAbstractType] = useState("conciso")
+  const [abstractType, setAbstractType] = useState(1)
   const [includeKeyPoints, setIncludeKeyPoints] = useState(true)
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedAbstract, setGeneratedAbstract] = useState("")
+
+  const abstractTypes = [
+    {
+      value: 1,
+      label: "Conciso",
+    },
+    {
+      value: 2,
+      label: "Detalhado",
+    },
+    {
+      value: 3,
+      label: "Acadêmico",
+    },
+    {
+      value: 4,
+      label: "Simplificado",
+    }
+  ]
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return
@@ -34,9 +53,7 @@ export default function NovoResumoPage() {
     try {
       setIsGenerating(true)
       const abstractSizeValue = abstractSize[0]
-      const response = await axios.post("/api/abstracts", { prompt, abstractType, abstractSize: abstractSizeValue, includeKeyPoints })
-
-      console.log(response.data)
+      const response = await axios.post("/api/abstracts", { prompt, abstractType: abstractTypes.find(f => f.value === abstractType), abstractSize: abstractSizeValue, includeKeyPoints })
 
       setGeneratedAbstract(response.data.data)
 
@@ -53,28 +70,6 @@ export default function NovoResumoPage() {
       setIsGenerating(false)
     }
 
-    // Simulate API call with timeout
-//     setTimeout(() => {
-//       // This is where you would call your actual API
-//       const fakeSummary = `Este é um resumo automático gerado com base no texto fornecido. O resumo foi configurado para ser ${abstractType} e ter aproximadamente ${abstractSize}% do tamanho original.
-
-// O texto aborda temas importantes relacionados à educação e tecnologia, destacando como ferramentas de inteligência artificial podem auxiliar no processo de aprendizagem. 
-
-// ${includeKeyPoints
-//           ? `
-// Pontos-chave:
-// • A integração de tecnologia na educação é essencial
-// • Ferramentas de IA podem personalizar a experiência de aprendizado
-// • O uso de resumos automáticos economiza tempo para estudantes
-// • A adaptação a novos métodos de estudo é fundamental para o sucesso acadêmico`
-//           : ""
-//         }
-
-// Este resumo foi gerado pelo Syntese, uma ferramenta de IA projetada para otimizar seus estudos e aumentar sua produtividade.`
-
-//       setGeneratedAbstract(fakeSummary)
-//       setIsGenerating(false)
-//     }, 2000)
   }
 
   const handleCopy = () => {
@@ -160,10 +155,9 @@ export default function NovoResumoPage() {
                   <SelectValue placeholder="Selecione um estilo" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="conciso">Conciso</SelectItem>
-                  <SelectItem value="detalhado">Detalhado</SelectItem>
-                  <SelectItem value="academico">Acadêmico</SelectItem>
-                  <SelectItem value="simples">Simplificado</SelectItem>
+                  {abstractTypes.map((type) => (
+                    <SelectItem value={type.value}>{type.label}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -206,9 +200,6 @@ export default function NovoResumoPage() {
                   <Download className="mr-2 h-4 w-4" /> Exportar
                 </Button>
               </div>
-              <Button size="sm">
-                <Save className="mr-2 h-4 w-4" /> Salvar Resumo
-              </Button>
             </CardFooter>
           </Card>
         )}

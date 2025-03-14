@@ -11,6 +11,7 @@ export const metadata = {
 }
 
 export default function AbstractsPage() {
+  
   return (
     <DashboardShell>
       <DashboardHeader heading="Resumos Automáticos" text="Gerencie seus resumos automáticos.">

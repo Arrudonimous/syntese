@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { FileText, MoreHorizontal, Pencil, Trash2, Copy, Download, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -15,52 +15,38 @@ import {
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-
-// Sample data for demonstration
-const resumosSample = [
-  {
-    id: "1",
-    title: "Inteligência Artificial na Educação",
-    excerpt: "Este resumo aborda como a IA está transformando o cenário educacional...",
-    date: "2023-07-15T10:30:00Z",
-    tags: ["educação", "tecnologia", "IA"],
-    wordCount: 250,
-  },
-  {
-    id: "2",
-    title: "Métodos de Estudo Eficientes",
-    excerpt: "Uma análise dos métodos de estudo mais eficientes para estudantes universitários...",
-    date: "2023-07-10T14:45:00Z",
-    tags: ["estudo", "produtividade", "universidade"],
-    wordCount: 320,
-  },
-  {
-    id: "3",
-    title: "O Futuro do Trabalho Remoto",
-    excerpt: "Este resumo explora as tendências e desafios do trabalho remoto no mundo pós-pandemia...",
-    date: "2023-07-05T09:15:00Z",
-    tags: ["trabalho", "remoto", "tendências"],
-    wordCount: 280,
-  },
-  {
-    id: "4",
-    title: "Sustentabilidade Empresarial",
-    excerpt: "Uma análise das práticas sustentáveis adotadas por grandes empresas...",
-    date: "2023-06-28T16:20:00Z",
-    tags: ["sustentabilidade", "empresas", "meio ambiente"],
-    wordCount: 310,
-  },
-]
+import axios from "axios"
+import sliceWord from "@/utils/sliceWord"
 
 export function AbstractsList() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [resumos, setResumos] = useState(resumosSample)
+  const [isLoading, setIsLoading] = useState(false)
+  const [resumos, setResumos] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        const abstracts = await axios.get("/api/abstracts");
+        console.log(abstracts.data.data);
+
+        setResumos(abstracts.data.data)
+      } catch (error) {
+        console.error("Erro ao buscar abstracts:", error);
+      } finally {
+        setIsLoading(true)
+      }
+    };
+
+    fetchData();
+  }, [])
 
   const filteredResumos = resumos.filter(
     (resumo) =>
       resumo.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       resumo.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())),
   )
+  
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -141,7 +127,7 @@ export function AbstractsList() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-                <CardDescription className="line-clamp-2 pt-1">{resumo.excerpt}</CardDescription>
+                <CardDescription className="line-clamp-2 pt-1">{sliceWord(resumo.description)}</CardDescription>
               </CardHeader>
               <CardContent className="flex-1 pb-2">
                 <ScrollArea className="h-10">
@@ -155,8 +141,8 @@ export function AbstractsList() {
                 </ScrollArea>
               </CardContent>
               <CardFooter className="flex items-center justify-between border-t pt-3">
-                <div className="text-xs text-muted-foreground">{formatDate(resumo.date)}</div>
-                <div className="text-xs text-muted-foreground">{resumo.wordCount} palavras</div>
+                <div className="text-xs text-muted-foreground">{formatDate(resumo.createdAt)}</div>
+                <div className="text-xs text-muted-foreground">{resumo.wordsCount} palavras</div>
               </CardFooter>
             </Card>
           ))}
