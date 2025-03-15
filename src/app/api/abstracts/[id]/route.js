@@ -54,6 +54,14 @@ export async function DELETE(req, { params }) {
       where: { id },
     })
 
+    await prisma.log.create({
+      data: {
+        logType: 2,
+        description: `Você apagou o resumo : ${foundAbstract.title}`,
+        userID
+      },
+    })
+
     return Response.json(
       { type: "success", data: deleteAbstract, message: "Resumo apagado" },
       { status: 200 }

@@ -1,8 +1,12 @@
 "use client"
 
+import { logTypes } from "@/utils/logTypes"
+import axios from "axios"
 import { FileText, Mail, Zap, BookOpen, Brain } from "lucide-react"
+import React, { useEffect, useState } from "react"
+import { Skeleton } from "../ui/skeleton"
 
-const activities = [
+const mockActivities = [
   {
     id: 1,
     type: "resumo",
@@ -46,9 +50,89 @@ const activities = [
 ]
 
 export function ActivityTimeline() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [activities, setActivities] = useState([])
+
+  const getActivitieIcon = (type) => {
+    if (type === 1 || type === 2) return <Zap className="h-4 w-4" />
+  }
+
+  const getActivitieTime = (date) => {
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    const seconds = diffInSeconds;
+    const minutes = Math.floor(diffInSeconds / 60);
+    const hours = Math.floor(diffInSeconds / 3600);
+    const days = Math.floor(diffInSeconds / 86400);
+
+    if (days > 0) {
+      return `Há ${days} dias`;
+    } else if (hours > 0) {
+      return `Há ${hours} horas`;
+    } else if (minutes > 0) {
+      return `Há ${minutes} minutos`;
+    } else if (seconds > 0) {
+      return `Há ${seconds} segundos`;
+    } else {
+      return "Agora mesmo";
+    }
+  };
+
+  const getActivities = (activitiesIncoming) => {
+    return activitiesIncoming.map((item => {
+      return {
+        title: logTypes.find((logType) => logType.id === item.logType).title,
+        icon: getActivitieIcon(item.logType),
+        time: getActivitieTime(new Date(item.createdAt)),
+        ...item
+      }
+    }))
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        const logs = await axios.get("/api/logs")
+        setActivities(getActivities(logs.data.data))
+      } catch (error) {
+        console.error("Erro ao buscar logs:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+
+  const renderSkeletonCards = () => {
+    const skeletonCard = (
+      <div className="flex items-start space-x-4 h-10">
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <Skeleton className="w-full rounded-xl" />
+        </div>
+        <div className="space-y-1 w-full">
+          <div className="flex w-full items-center ">
+            <Skeleton className="w-full h-9 rounded-xl" />
+          </div>
+        </div>
+      </div>
+    );
+
+    return (
+      <div className="space-y-4">
+        {Array.from({ length: 3 }, (_, index) => (
+          <React.Fragment key={index}>{skeletonCard}</React.Fragment>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
-      {activities.map((activity) => (
+      {isLoading ? renderSkeletonCards() : activities.map((activity) => (
         <div key={activity.id} className="flex items-start space-x-4">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
             {activity.icon}

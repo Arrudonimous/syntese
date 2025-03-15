@@ -15,8 +15,8 @@ model User {
   password String
   createdAt DateTime @default(now())
   abstracts Abstract[]
+  logs Log[]
 }
-
 
 
 model Abstract {
@@ -33,9 +33,18 @@ model Abstract {
 }
 
 
-
 model AbstractType{
   id    Int @id @default(autoincrement())
   type  String
   abstracts Abstract[]
+}
+
+
+model Log {
+  id            String       @id @default(uuid())
+  description   String
+  logType       Int
+  user          User         @relation(fields: [userID], references: [id])
+  userID        String
+  createdAt     DateTime     @default(now())
 }

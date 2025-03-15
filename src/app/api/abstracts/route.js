@@ -59,6 +59,14 @@ export async function POST(req) {
       },
     })
 
+    await prisma.log.create({
+      data: {
+        logType: 1,
+        description: `Você criou um resumo com titulo : ${titleResponse}`,
+        userID
+      },
+    })
+
     return Response.json(
       { type: "success", data: textResponse, message: "Resumo Gerado" },
       { status: 200 }

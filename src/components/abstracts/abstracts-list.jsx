@@ -75,6 +75,36 @@ export function AbstractsList() {
     }
   }
 
+  const renderSkeletonCards = () => {
+    const skeletonCard = (
+      <Card className="flex flex-col">
+        <CardHeader className="pb-3">
+          <div className="flex items-start justify-between">
+            <Skeleton className="w-full h-10 rounded-xl" />
+          </div>
+          <CardDescription className="line-clamp-2 pt-1">
+            <Skeleton className="rounded-xl" />
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex-1 pb-2">
+          <ScrollArea className="h-10" />
+        </CardContent>
+        <CardFooter className="flex items-center justify-between border-t pt-3">
+          <Skeleton className="rounded-xl" />
+        </CardFooter>
+      </Card>
+    );
+
+    return (
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 3 }, (_, index) => (
+          <React.Fragment key={index}>{skeletonCard}</React.Fragment>
+        ))}
+      </div>
+    );
+  }
+
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
@@ -87,9 +117,7 @@ export function AbstractsList() {
         />
       </div>
 
-      {isLoading ? (
-        <Skeleton className="w-full h-10 rounded-xl" />
-      ) : filteredResumos.length === 0 ? (
+      {isLoading ? renderSkeletonCards() : filteredResumos.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-10">
             <FileText className="h-10 w-10 text-muted-foreground" />
@@ -104,13 +132,13 @@ export function AbstractsList() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredResumos.map((resumo) => (
-            <Card key={resumo.id} className="flex flex-col">
+            <Card key={resumo.id} className="flex flex-col" disabled={isDeleting}>
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
                   <CardTitle className="line-clamp-1 text-lg">{resumo.title}</CardTitle>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="-mr-2 h-8 w-8" disabled={isDeleting}>
+                      <Button variant="ghost" size="icon" className="-mr-2 h-8 w-8">
                         <MoreHorizontal className="h-4 w-4" />
                         <span className="sr-only">Ações</span>
                       </Button>
