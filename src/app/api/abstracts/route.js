@@ -32,7 +32,6 @@ export async function POST(req) {
     const tagsResult = await model.generateContent(tagsPrompt);
     const tagsResponse = tagsResult.response.text();
     const tagsArray = tagsResponse.split(',').map(tag => tag.trim())
-    console.log(tagsArray)
 
     if (includeKeyPoints) {
       const keyPointsPrompt = `Gere somente os pontos-chave do seguinte texto, separados por duas quebras de linha. Cada ponto deve começar com '• '. Não adicione espaços extras no final:
@@ -83,8 +82,6 @@ export async function GET(req) {
         userID,
       }
     })
-
-    console.log(abstracts)
 
     return Response.json(
       { type: "success", data: abstracts, message: "Resumos achados" },
