@@ -12,9 +12,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch"
 import { ArrowLeft, Copy, Save, Download, FileUp, Sparkles } from "lucide-react"
 import { useRouter } from "next/navigation"
+import axios from "axios"
+import { useToast } from "@/hooks/use-toast"
 
 export default function NovaCitacaoPage() {
   const router = useRouter()
+  const { toast } = useToast()
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
   const [year, setYear] = useState("")
@@ -26,36 +29,54 @@ export default function NovaCitacaoPage() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedCitation, setGeneratedCitation] = useState("")
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (!title.trim() || !author.trim()) return
 
-    setIsGenerating(true)
+    try {
+      setIsGenerating(true)
+
+      const response = await axios.post("/api/quotes", { title, author, year, publisher, url, doi, format, includeAccessDate })
+
+      setGeneratedCitation(response.data.data)
+
+      toast({
+        description: response.data.message,
+      })
+    } catch (error) {
+      console.log(error)
+      const response = error.response.data
+      toast({
+        description: response.message,
+      })
+    } finally {
+      setIsGenerating(false)
+    }
 
     // Simulate API call with timeout
-    setTimeout(() => {
-      // This is where you would call your actual API
-      let fakeCitation = ""
+    // setTimeout(() => {
+    //   // This is where you would call your actual API
+    //   let fakeCitation = ""
 
-      switch (format) {
-        case "ABNT":
-          fakeCitation = `${author.toUpperCase()}. ${title}. ${publisher}, ${year}.${url ? ` Disponível em: ${url}.` : ""}${includeAccessDate ? ` Acesso em: ${new Date().toLocaleDateString("pt-BR")}.` : ""}`
-          break
-        case "APA":
-          fakeCitation = `${author} (${year}). ${title}. ${publisher}.${doi ? ` https://doi.org/${doi}` : ""}`
-          break
-        case "MLA":
-          fakeCitation = `${author}. "${title}." ${publisher}, ${year}.${url ? ` ${url}.` : ""}`
-          break
-        case "Vancouver":
-          fakeCitation = `${author}. ${title}. ${publisher}. ${year}.${doi ? ` doi: ${doi}` : ""}`
-          break
-        default:
-          fakeCitation = `${author} (${year}). ${title}. ${publisher}.`
-      }
+    //   switch (format) {
+    //     case "ABNT":
+    //       fakeCitation = `${author.toUpperCase()}. ${title}. ${publisher}, ${year}.${url ? ` Disponível em: ${url}.` : ""}${includeAccessDate ? ` Acesso em: ${new Date().toLocaleDateString("pt-BR")}.` : ""}`
+    //       break
+    //     case "APA":
+    //       fakeCitation = `${author} (${year}). ${title}. ${publisher}.${doi ? ` https://doi.org/${doi}` : ""}`
+    //       break
+    //     case "MLA":
+    //       fakeCitation = `${author}. "${title}." ${publisher}, ${year}.${url ? ` ${url}.` : ""}`
+    //       break
+    //     case "Vancouver":
+    //       fakeCitation = `${author}. ${title}. ${publisher}. ${year}.${doi ? ` doi: ${doi}` : ""}`
+    //       break
+    //     default:
+    //       fakeCitation = `${author} (${year}). ${title}. ${publisher}.`
+    //   }
 
-      setGeneratedCitation(fakeCitation)
-      setIsGenerating(false)
-    }, 1500)
+    //   setGeneratedCitation(fakeCitation)
+    //   setIsGenerating(false)
+    // }, 1500)
   }
 
   const handleCopy = () => {
