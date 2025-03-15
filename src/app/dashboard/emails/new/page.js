@@ -13,7 +13,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
 import { ArrowLeft, Mail, Copy, Send, Save, Sparkles, Maximize2, Minimize2 } from "lucide-react"
-import Link from "next/link"
 import { EmailEditor } from "@/components/emails/email-editor"
 import { EmailPreview } from "@/components/emails/email-preview"
 import { useRouter } from "next/navigation"
