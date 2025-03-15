@@ -19,8 +19,10 @@ import axios from "axios"
 import sliceWord from "@/utils/sliceWord"
 import { Skeleton } from "../ui/skeleton"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { useToast } from "@/hooks/use-toast"
 
 export function AbstractsList() {
+  const { toast } = useToast()
   const [searchQuery, setSearchQuery] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -73,6 +75,14 @@ export function AbstractsList() {
     } finally {
       setIsDeleting(false)
     }
+  }
+
+  const handleCopy = (description) => {
+    navigator.clipboard.writeText(description.replace(/\*\*\* \*\*\*/g, ' '))
+    toast({
+      title: "Texto copiado",
+      description: "O conteúdo do resumo foi copiado para a área de transferência.",
+    })
   }
 
   const renderSkeletonCards = () => {
@@ -149,12 +159,7 @@ export function AbstractsList() {
                           <FileText className="mr-2 h-4 w-4" /> Ver
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link href={`/dashboard/abstracts/${resumo.id}/edit`}>
-                          <Pencil className="mr-2 h-4 w-4" /> Editar
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleCopy(resumo.description)}>
                         <Copy className="mr-2 h-4 w-4" /> Copiar
                       </DropdownMenuItem>
                       <DropdownMenuItem>

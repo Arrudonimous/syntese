@@ -6,6 +6,7 @@ import { UsageMetrics } from "@/components/analytics/usage-metrics"
 import { ActivityTimeline } from "@/components/analytics/activity-timeline"
 import { PerformanceChart } from "@/components/analytics/performance-chart"
 import { ContentBreakdown } from "@/components/analytics/content-breakdown"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 export const metadata = {
   title: "Análises | Syntese",
@@ -37,7 +38,9 @@ export default function AnalyticsPage() {
                 <CardDescription>Suas últimas ações na plataforma</CardDescription>
               </CardHeader>
               <CardContent>
-                <ActivityTimeline />
+                <ScrollArea className="h-64">
+                  <ActivityTimeline />
+                </ScrollArea>
               </CardContent>
             </Card>
           </div>

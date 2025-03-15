@@ -20,6 +20,7 @@ export async function POST(req) {
     const textResult = await model.generateContent(textPrompt);
     let textResponse = textResult.response.text();
 
+
     const titlePrompt = `Gere somente um título mais direto para o seguinte texto sem estilizações: ${textResponse}`;
     const titleResult = await model.generateContent(titlePrompt);
     const titleResponse = titleResult.response.text();
@@ -44,9 +45,10 @@ export async function POST(req) {
       textResponse += `\n\n${keyPointsResponse.replace(/• /g, '•  ')}`;
     }
     
-    const replacedTextResponse = textResponse.replace(/\n/g, ' ');
+    const replacedTextResponse = textResponse.replace(/\n/g, '*** ');
 
     const wordsCountQTD = wordsCount(replacedTextResponse)
+    const originalWordsCountQTD = wordsCount(prompt)
 
     await prisma.abstract.create({
       data: {
@@ -55,6 +57,7 @@ export async function POST(req) {
         description: replacedTextResponse,
         userID,
         wordsCount: wordsCountQTD,
+        originalWordsCount: originalWordsCountQTD,
         tags: tagsArray
       },
     })

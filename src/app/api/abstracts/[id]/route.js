@@ -1,12 +1,15 @@
 import { cookies } from "next/headers";
 
-export async function GET(req) {
+export async function GET(req, { params }) {
   try {
-    const { searchParams } = req.nextUrl
-    const id = searchParams.get("id")
+    const { id } = await params
+
+    const abstract = await prisma.abstract.findUnique({
+      where: { id },
+    });
 
     return Response.json(
-      { type: "success", data: abstract, message: "Resumos encontrado" },
+      { type: "success", data: abstract, message: "Resumo encontrado" },
       { status: 200 }
     );
   } catch (error) {

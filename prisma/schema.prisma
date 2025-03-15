@@ -24,6 +24,7 @@ model Abstract {
   title         String
   description   String
   wordsCount    Int
+  originalWordsCount    Int
   abstractType  AbstractType @relation(fields: [abstractTypeID], references: [id])
   abstractTypeID Int
   user          User         @relation(fields: [userID], references: [id])
