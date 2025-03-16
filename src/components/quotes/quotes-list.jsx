@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import Link from "next/link"
 import { BookOpen, MoreHorizontal, Pencil, Trash2, Copy, Download, Search, Filter } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -16,63 +16,29 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
-// Sample data for demonstration
-const citacoesSample = [
-  {
-    id: "1",
-    title: "Inteligência Artificial: Uma Abordagem Moderna",
-    author: "Stuart Russell e Peter Norvig",
-    year: "2020",
-    publisher: "Pearson",
-    format: "ABNT",
-    date: "2023-07-15T10:30:00Z",
-    tags: ["IA", "computação", "livro"],
-  },
-  {
-    id: "2",
-    title: "O Impacto da Tecnologia na Educação",
-    author: "Maria Silva",
-    year: "2021",
-    publisher: "Revista Brasileira de Educação",
-    format: "APA",
-    date: "2023-07-10T14:45:00Z",
-    tags: ["educação", "tecnologia", "artigo"],
-  },
-  {
-    id: "3",
-    title: "Desenvolvimento Sustentável: Desafios e Oportunidades",
-    author: "João Santos et al.",
-    year: "2019",
-    publisher: "Editora Ambiente",
-    format: "Vancouver",
-    date: "2023-07-05T09:15:00Z",
-    tags: ["sustentabilidade", "meio ambiente", "livro"],
-  },
-  {
-    id: "4",
-    title: "A Neurociência da Aprendizagem",
-    author: "Carlos Oliveira",
-    year: "2022",
-    publisher: "Journal of Neuroscience",
-    format: "MLA",
-    date: "2023-06-28T16:20:00Z",
-    tags: ["neurociência", "aprendizagem", "artigo"],
-  },
-]
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { useEffect } from "react"
+import axios from "axios"
+import { Skeleton } from "../ui/skeleton"
+import { useToast } from "@/hooks/use-toast"
 
 export function CitacoesList() {
   const [searchQuery, setSearchQuery] = useState("")
   const [formatFilter, setFormatFilter] = useState("todos")
-  const [citacoes, setCitacoes] = useState(citacoesSample)
+  const [citacoes, setCitacoes] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isDeleting, setIsDeleting] = useState(true)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
+  const { toast } = useToast()
 
   const filteredCitacoes = citacoes.filter((citacao) => {
     const matchesSearch =
       citacao.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      citacao.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      citacao.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       citacao.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
 
-    const matchesFormat = formatFilter === "todos" || citacao.format === formatFilter
+    const matchesFormat = formatFilter === "todos" || citacao.quoteType === formatFilter
 
     return matchesSearch && matchesFormat
   })
@@ -86,13 +52,25 @@ export function CitacoesList() {
     }).format(date)
   }
 
-  const handleDelete = (id) => {
-    setCitacoes(citacoes.filter((citacao) => citacao.id !== id))
-    // Here you would also call your API to delete the citation
+  const handleDelete = async () => {
+    if (!deleteId) return
+
+    try {
+      setIsDeleting(true)
+      await axios.delete(`/api/quotes/${deleteId}`)
+      setCitacoes(citacoes.filter((citacao) => citacao.id !== id))
+      setIsDialogOpen(false)
+    } catch (error) {
+      console.error("Erro ao excluir citação:", error)
+    } finally {
+      setIsDeleting(false)
+    }
+
+    
   }
 
-  const formatBadgeColor = (format) => {
-    switch (format) {
+  const formatBadgeColor = (quoteType) => {
+    switch (quoteType) {
       case "ABNT":
         return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
       case "APA":
@@ -106,10 +84,65 @@ export function CitacoesList() {
     }
   }
 
+  const handleCopy = (description) => {
+    navigator.clipboard.writeText(description)
+    toast({
+      title: "Texto copiado",
+      description: "O conteúdo da citação foi copiado para a área de transferência.",
+    })
+  }
+
+  const renderSkeletonCards = () => {
+    const skeletonCard = (
+      <Card className="flex flex-col">
+        <CardHeader className="pb-3">
+          <div className="flex items-start justify-between">
+            <Skeleton className="w-full h-10 rounded-xl" />
+          </div>
+          <CardDescription className="line-clamp-2 pt-1">
+            <Skeleton className="rounded-xl" />
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex-1 pb-2">
+          <ScrollArea className="h-10" />
+        </CardContent>
+        <CardFooter className="flex items-center justify-between border-t pt-3">
+          <Skeleton className="rounded-xl" />
+        </CardFooter>
+      </Card>
+    );
+
+    return (
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 3 }, (_, index) => (
+          <React.Fragment key={index}>{skeletonCard}</React.Fragment>
+        ))}
+      </div>
+    );
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true)
+
+      try {
+        const res = await axios.get('/api/quotes')
+
+        setCitacoes(res.data.data)
+      } catch (error) {
+        
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-2 w-full sm:w-auto">
+        <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Buscar por título, autor ou tag..."
@@ -118,6 +151,7 @@ export function CitacoesList() {
             className="max-w-sm"
           />
         </div>
+
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
           <Select value={formatFilter} onValueChange={setFormatFilter}>
@@ -135,7 +169,8 @@ export function CitacoesList() {
         </div>
       </div>
 
-      {filteredCitacoes.length === 0 ? (
+
+      {isLoading ? renderSkeletonCards() : filteredCitacoes.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-10">
             <BookOpen className="h-10 w-10 text-muted-foreground" />
@@ -149,11 +184,11 @@ export function CitacoesList() {
         </Card>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {filteredCitacoes.map((citacao) => (
-            <Card key={citacao.id} className="flex flex-col">
+          {filteredCitacoes.map((quote) => (
+            <Card key={quote.id} className="flex flex-col">
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
-                  <CardTitle className="line-clamp-1 text-lg">{citacao.title}</CardTitle>
+                  <CardTitle className="line-clamp-1 text-lg">{quote.title}</CardTitle>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="icon" className="-mr-2 h-8 w-8">
@@ -162,45 +197,35 @@ export function CitacoesList() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem asChild>
-                        <Link href={`/dashboard/quotes/${citacao.id}`}>
-                          <BookOpen className="mr-2 h-4 w-4" /> Ver
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link href={`/dashboard/quotes/${citacao.id}/edit`}>
-                          <Pencil className="mr-2 h-4 w-4" /> Editar
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleCopy(quote.description)}>
                         <Copy className="mr-2 h-4 w-4" /> Copiar
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Download className="mr-2 h-4 w-4" /> Exportar
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
                         className="text-destructive focus:text-destructive"
-                        onClick={() => handleDelete(citacao.id)}
+                        onClick={() => {
+                          setDeleteId(quote.id)
+                          setIsDialogOpen(true)
+                        }}
                       >
                         <Trash2 className="mr-2 h-4 w-4" /> Excluir
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-                <CardDescription className="line-clamp-2 pt-1">
-                  {citacao.author}, {citacao.year}. {citacao.publisher}.
+                <CardDescription className="pt-1">
+                  {quote.description}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-1 pb-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <Badge className={formatBadgeColor(citacao.format)} variant="secondary">
-                    {citacao.format}
+                  <Badge className={formatBadgeColor(quote.quoteType)} variant="secondary">
+                    {quote.quoteType}
                   </Badge>
                 </div>
                 <ScrollArea className="h-10">
                   <div className="flex flex-wrap gap-1">
-                    {citacao.tags.map((tag) => (
+                    {quote.tags.map((tag) => (
                       <Badge key={tag} variant="secondary" className="text-xs">
                         {tag}
                       </Badge>
@@ -209,12 +234,27 @@ export function CitacoesList() {
                 </ScrollArea>
               </CardContent>
               <CardFooter className="flex items-center justify-between border-t pt-3">
-                <div className="text-xs text-muted-foreground">Criado em: {formatDate(citacao.date)}</div>
+                <div className="text-xs text-muted-foreground">Criado em: {formatDate(quote.createdAt)}</div>
               </CardFooter>
             </Card>
           ))}
         </div>
       )}
+
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Tem certeza que deseja excluir?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta ação não pode ser desfeita. O resumo será permanentemente removido.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete}>Excluir</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

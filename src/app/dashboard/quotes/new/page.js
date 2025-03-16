@@ -10,10 +10,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import { ArrowLeft, Copy, Save, Download, FileUp, Sparkles } from "lucide-react"
+import { ArrowLeft, Copy, Save, Download, FileUp, Sparkles, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import { useToast } from "@/hooks/use-toast"
+import { DatePicker } from "@/components/ui/date-picker"
 
 export default function NovaCitacaoPage() {
   const router = useRouter()
@@ -26,16 +27,21 @@ export default function NovaCitacaoPage() {
   const [doi, setDoi] = useState("")
   const [format, setFormat] = useState("ABNT")
   const [includeAccessDate, setIncludeAccessDate] = useState(true)
+  const [accessDate, setAccessDate] = useState(null)
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedCitation, setGeneratedCitation] = useState("")
 
   const handleGenerate = async () => {
-    if (!title.trim() || !author.trim()) return
+    if (!title.trim() || !author.trim() || !year.trim() || !publisher.trim()){
+      toast({
+        description: "Autor e titulo são obrigatorios",
+      })
+    }
 
     try {
       setIsGenerating(true)
 
-      const response = await axios.post("/api/quotes", { title, author, year, publisher, url, doi, format, includeAccessDate })
+      const response = await axios.post("/api/quotes", { title, author, year, publisher, url, doi, format, includeAccessDate, accessDate })
 
       setGeneratedCitation(response.data.data)
 
@@ -238,20 +244,23 @@ export default function NovaCitacaoPage() {
               <Switch id="include-access-date" checked={includeAccessDate} onCheckedChange={setIncludeAccessDate} />
               <Label htmlFor="include-access-date">Incluir data de acesso (para fontes online)</Label>
             </div>
+
+            {includeAccessDate && (
+              <div className="space-y-2">
+                <Label htmlFor="access-date">Data de Acesso</Label>
+                <DatePicker value={accessDate} onChange={setAccessDate} />
+              </div>
+            )}
           </CardContent>
           <CardFooter>
             <Button
               onClick={handleGenerate}
-              disabled={!title.trim() || !author.trim() || isGenerating}
+              disabled={!title.trim() || !author.trim() || !year.trim() || !publisher.trim() || (includeAccessDate && (accessDate === null || accessDate === undefined)) || isGenerating}
               className="w-full"
             >
-              {isGenerating ? (
-                <>Gerando citação...</>
-              ) : (
-                <>
-                  <Sparkles className="mr-2 h-4 w-4" /> Gerar Citação
-                </>
-              )}
+
+              {isGenerating && <Loader2 className="animate-spin" />}
+              <Sparkles className="mr-2 h-4 w-4" /> Gerar Citação
             </Button>
           </CardFooter>
         </Card>

@@ -15,6 +15,7 @@ model User {
   password String
   createdAt DateTime @default(now())
   abstracts Abstract[]
+  quotes Quote[]
   logs Log[]
 }
 
@@ -38,6 +39,17 @@ model AbstractType{
   id    Int @id @default(autoincrement())
   type  String
   abstracts Abstract[]
+}
+
+model Quote {
+  id            String       @id @default(uuid())
+  title         String
+  description   String
+  quoteType     String
+  user          User         @relation(fields: [userID], references: [id])
+  userID        String
+  createdAt     DateTime     @default(now())
+  tags          String[]     
 }
 
 

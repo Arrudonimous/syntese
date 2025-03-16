@@ -55,6 +55,7 @@ export function ActivityTimeline() {
 
   const getActivitieIcon = (type) => {
     if (type === 1 || type === 2) return <Zap className="h-4 w-4" />
+    if (type === 3 || type === 4) return <BookOpen className="h-4 w-4" />
   }
 
   const getActivitieTime = (date) => {
