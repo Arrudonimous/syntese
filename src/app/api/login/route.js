@@ -1,7 +1,7 @@
 import { generateToken } from "@/lib/jwt";
 import { comparePassword } from "@/lib/utils";
 import { cookies } from "next/headers";
-import prisma from "@/lib/prisma"; // Certifique-se de importar corretamente o Prisma
+import prisma from "@/lib/prisma";
 
 export async function POST(req) {
   try {
@@ -29,37 +29,22 @@ export async function POST(req) {
     const token = await generateToken({ userId: user.id, email: user.email });
 
     const cookieStore = await cookies();
-    cookieStore.set("token", token, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 7 dias
-      sameSite: "Strict",
-    });
 
-    cookieStore.set("userId", user.id, {
-      httpOnly: false,
+    // Configuração dos cookies para melhor compatibilidade com o Safari
+    const cookieOptions = {
       secure: process.env.NODE_ENV === "production",
       path: "/",
       maxAge: 60 * 60 * 24 * 7, // 7 dias
-      sameSite: "Strict",
-    })
+      sameSite: "Lax", // Melhor compatibilidade no Safari
+    };
 
-    cookieStore.set("userEmail", user.email, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 7 dias
-      sameSite: "Strict",
-    })
+    // O token deve ser HTTP-only por segurança
+    cookieStore.set("token", token, { ...cookieOptions, httpOnly: true });
 
-    cookieStore.set("userName", user.name, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 7 dias
-      sameSite: "Strict",
-    })
+    // Outros cookies podem ser acessíveis pelo frontend
+    cookieStore.set("userId", user.id, { ...cookieOptions, httpOnly: false });
+    cookieStore.set("userEmail", user.email, { ...cookieOptions, httpOnly: false });
+    cookieStore.set("userName", user.name, { ...cookieOptions, httpOnly: false });
 
     return Response.json(
       { type: "success", data: { token }, message: "Logado com sucesso" },
