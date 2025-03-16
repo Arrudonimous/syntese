@@ -4,6 +4,7 @@ import { Overview } from "@/components/dashboard/overview"
 import { RecentActivity } from "@/components/dashboard/recent-activity"
 import { QuickActions } from "@/components/dashboard/quick-actions"
 import { UpcomingTasks } from "@/components/dashboard/upcoming-tasks"
+import { ActivityTimeline } from "@/components/analytics/activity-timeline"
 
 export const metadata = {
   title: "Dashboard | Syntese",
@@ -21,7 +22,7 @@ export default function DashboardPage() {
         <Overview className="col-span-4" />
         <div className="col-span-3 space-y-4">
           <UpcomingTasks />
-          <RecentActivity />
+          <ActivityTimeline />
         </div>
       </div>
     </DashboardShell>
