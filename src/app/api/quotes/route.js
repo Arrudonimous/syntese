@@ -4,24 +4,30 @@ import { cookies } from 'next/headers';
 
 export async function POST(req) {
   try {
-    const { title, author, year, publisher, url, doi, format, includeAccessDate, accessDate } = await req.json();
+    const { title, author, year, publisher, url, doi, format, includeAccessDate, accessDate, quoteType } = await req.json();
 
     const cookieStore = await cookies();
     const userID = cookieStore.get("userId").value
 
     const textPrompt = `Gere uma citação completa no formato solicitado e retorne somente a citação, sem mais nada (ABNT, APA, MLA ou Vancouver) a partir das seguintes informações:
 
-    Título: ${title}
+    Tipo de citação: ${quoteType}
+
+    ${quoteType === "manual" ? `Título: ${title}
     Autor: ${author}
     Ano: ${year}
-    Editora/Periódico: ${publisher}
-    URL (opcional): ${url}
-    DOI (opcional): ${doi}
+    Editora/Periódico: ${publisher}` : ""}
+    
+    ${quoteType === "DOI" ? `DOI: ${doi}` : ""}
+    
+    ${quoteType === "URL" ? `URL: ${url}` : ""}
+    
+    Formato da citação: ${format}
     Incluir data de acesso: ${includeAccessDate ? "Sim" : "Não"}
     Data de acesso: ${accessDate}
-    Formato da citação: ${format}
-    
+
     Se a data de acesso for necessária no formato escolhido e uma URL for fornecida, inclua a data de acesso corretamente formatada.`;
+
 
     const textResult = await model.generateContent(textPrompt);
     let textResponse = textResult.response.text()
@@ -55,7 +61,7 @@ export async function POST(req) {
     await prisma.log.create({
       data: {
         logType: 3,
-        description: `Você criou uma citação para o titulo : ${title}`,
+        description: `Você criou uma citação para o titulo : ${createdQuote.title}`,
         userID
       },
     })

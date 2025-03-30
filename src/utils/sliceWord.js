@@ -1,6 +1,6 @@
-export default function sliceWord(str) {
-  if (str.length > 100) {
-    return str.slice(0, 100) + '...';
+export default function sliceWord(str, maxLen = 100) {
+  if (str.length > maxLen) {
+    return str.slice(0, maxLen) + '...';
   }
   return str;
 }

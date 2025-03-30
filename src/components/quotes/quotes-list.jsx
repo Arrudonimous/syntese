@@ -21,6 +21,7 @@ import { useEffect } from "react"
 import axios from "axios"
 import { Skeleton } from "../ui/skeleton"
 import { useToast } from "@/hooks/use-toast"
+import sliceWord from "@/utils/sliceWord"
 
 export function CitacoesList() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -58,13 +59,14 @@ export function CitacoesList() {
     try {
       setIsDeleting(true)
       await axios.delete(`/api/quotes/${deleteId}`)
-      setCitacoes(citacoes.filter((citacao) => citacao.id !== id))
       setIsDialogOpen(false)
     } catch (error) {
       console.error("Erro ao excluir citação:", error)
     } finally {
       setIsDeleting(false)
     }
+
+    setCitacoes(citacoes.filter((citacao) => citacao.id !== id))
 
     
   }
@@ -214,7 +216,7 @@ export function CitacoesList() {
                   </DropdownMenu>
                 </div>
                 <CardDescription className="pt-1">
-                  {quote.description}
+                  {sliceWord(quote.description)}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-1 pb-2">

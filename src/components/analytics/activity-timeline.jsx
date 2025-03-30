@@ -5,6 +5,7 @@ import axios from "axios"
 import { FileText, Mail, Zap, BookOpen, Brain } from "lucide-react"
 import React, { useEffect, useState } from "react"
 import { Skeleton } from "../ui/skeleton"
+import sliceWord from "@/utils/sliceWord"
 
 const mockActivities = [
   {
@@ -140,7 +141,7 @@ export function ActivityTimeline() {
           </div>
           <div className="space-y-1">
             <p className="text-sm font-medium">{activity.title}</p>
-            <p className="text-xs text-muted-foreground">{activity.description}</p>
+            <p className="text-xs text-muted-foreground">{sliceWord(activity.description, 70)}</p>
             <p className="text-xs text-muted-foreground">{activity.time}</p>
           </div>
         </div>

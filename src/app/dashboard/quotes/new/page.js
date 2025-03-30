@@ -19,6 +19,7 @@ import { DatePicker } from "@/components/ui/date-picker"
 export default function NovaCitacaoPage() {
   const router = useRouter()
   const { toast } = useToast()
+  const [quoteType, setQuoteType] = useState("manual")
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
   const [year, setYear] = useState("")
@@ -32,16 +33,11 @@ export default function NovaCitacaoPage() {
   const [generatedCitation, setGeneratedCitation] = useState("")
 
   const handleGenerate = async () => {
-    if (!title.trim() || !author.trim() || !year.trim() || !publisher.trim()){
-      toast({
-        description: "Autor e titulo são obrigatorios",
-      })
-    }
 
     try {
       setIsGenerating(true)
 
-      const response = await axios.post("/api/quotes", { title, author, year, publisher, url, doi, format, includeAccessDate, accessDate })
+      const response = await axios.post("/api/quotes", { title, author, year, publisher, url, doi, format, includeAccessDate, accessDate, quoteType })
 
       setGeneratedCitation(response.data.data)
 
@@ -57,37 +53,21 @@ export default function NovaCitacaoPage() {
     } finally {
       setIsGenerating(false)
     }
-
-    // Simulate API call with timeout
-    // setTimeout(() => {
-    //   // This is where you would call your actual API
-    //   let fakeCitation = ""
-
-    //   switch (format) {
-    //     case "ABNT":
-    //       fakeCitation = `${author.toUpperCase()}. ${title}. ${publisher}, ${year}.${url ? ` Disponível em: ${url}.` : ""}${includeAccessDate ? ` Acesso em: ${new Date().toLocaleDateString("pt-BR")}.` : ""}`
-    //       break
-    //     case "APA":
-    //       fakeCitation = `${author} (${year}). ${title}. ${publisher}.${doi ? ` https://doi.org/${doi}` : ""}`
-    //       break
-    //     case "MLA":
-    //       fakeCitation = `${author}. "${title}." ${publisher}, ${year}.${url ? ` ${url}.` : ""}`
-    //       break
-    //     case "Vancouver":
-    //       fakeCitation = `${author}. ${title}. ${publisher}. ${year}.${doi ? ` doi: ${doi}` : ""}`
-    //       break
-    //     default:
-    //       fakeCitation = `${author} (${year}). ${title}. ${publisher}.`
-    //   }
-
-    //   setGeneratedCitation(fakeCitation)
-    //   setIsGenerating(false)
-    // }, 1500)
   }
 
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedCitation)
     // You could add a toast notification here
+  }
+
+  const getDisabledGenerateButton = () => {
+    if(quoteType === 'manual'){
+      return !title.trim() || !author.trim() || !year.trim() || !publisher.trim() || (includeAccessDate && (accessDate === null || accessDate === undefined)) || isGenerating
+    } else if (quoteType === 'DOI') {
+      return !doi.trim() || (includeAccessDate && (accessDate === null || accessDate === undefined)) || isGenerating
+    } else if (quoteType === 'URL') {
+      return !url.trim() || (includeAccessDate && (accessDate === null || accessDate === undefined)) || isGenerating
+    }
   }
 
   return (
@@ -100,9 +80,9 @@ export default function NovaCitacaoPage() {
 
       <Tabs defaultValue="manual" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="manual">Entrada Manual</TabsTrigger>
-          <TabsTrigger value="doi">DOI</TabsTrigger>
-          <TabsTrigger value="url">URL</TabsTrigger>
+          <TabsTrigger value="manual" onClick={(e) => setQuoteType(e.target.textContent)}>Entrada Manual</TabsTrigger>
+          <TabsTrigger value="doi" onClick={(e) => setQuoteType(e.target.textContent)}>DOI</TabsTrigger>
+          <TabsTrigger value="url" onClick={(e) => setQuoteType(e.target.textContent)}>URL</TabsTrigger>
         </TabsList>
 
         <TabsContent value="manual" className="space-y-4">
@@ -183,8 +163,7 @@ export default function NovaCitacaoPage() {
               <div className="space-y-2">
                 <Label htmlFor="doi-search">DOI</Label>
                 <div className="flex gap-2">
-                  <Input id="doi-search" placeholder="Ex: 10.1000/xyz123" className="flex-1" />
-                  <Button>Buscar</Button>
+                  <Input id="doi-search" placeholder="Ex: 10.1000/xyz123" className="flex-1" onChange={(e) => setDoi(e.target.value)} />
                 </div>
                 <p className="text-xs text-muted-foreground">
                   O DOI é um identificador único para documentos acadêmicos. Exemplo: 10.1000/xyz123
@@ -204,8 +183,7 @@ export default function NovaCitacaoPage() {
               <div className="space-y-2">
                 <Label htmlFor="url-extract">URL</Label>
                 <div className="flex gap-2">
-                  <Input id="url-extract" placeholder="https://exemplo.com/artigo" className="flex-1" />
-                  <Button>Extrair</Button>
+                  <Input id="url-extract" placeholder="https://exemplo.com/artigo" className="flex-1" onChange={(e) => setUrl(e.target.value)} />
                 </div>
               </div>
               <div className="mt-4 flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed p-6 dark:border-gray-700">
@@ -255,13 +233,13 @@ export default function NovaCitacaoPage() {
           <CardFooter>
             <Button
               onClick={handleGenerate}
-              disabled={!title.trim() || !author.trim() || !year.trim() || !publisher.trim() || (includeAccessDate && (accessDate === null || accessDate === undefined)) || isGenerating}
+              disabled={getDisabledGenerateButton()}
               className="w-full"
             >
-
               {isGenerating && <Loader2 className="animate-spin" />}
               <Sparkles className="mr-2 h-4 w-4" /> Gerar Citação
             </Button>
+
           </CardFooter>
         </Card>
 
