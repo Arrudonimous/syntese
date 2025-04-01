@@ -17,6 +17,7 @@ model User {
   abstracts Abstract[]
   quotes Quote[]
   logs Log[]
+  flashcardDecks FlashcardDeck[]
 }
 
 
@@ -60,4 +61,27 @@ model Log {
   user          User         @relation(fields: [userID], references: [id])
   userID        String
   createdAt     DateTime     @default(now())
+}
+
+
+model FlashcardDeck {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  category    String
+  user        User     @relation(fields: [userID], references: [id])
+  userID      String
+  createdAt   DateTime @default(now())
+  lastUpdated DateTime
+  cards       Card[]   @relation("DeckCards")
+}
+
+model Card {
+  id        String        @id @default(uuid())
+  front     String
+  back      String
+  read      Boolean
+  deck      FlashcardDeck @relation("DeckCards", fields: [deckID], references: [id], onDelete: Cascade)
+  deckID    String
+  createdAt DateTime      @default(now())
 }

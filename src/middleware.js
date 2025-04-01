@@ -7,9 +7,6 @@ export async function middleware(req) {
   const token = cookieStore.get("token")?.value;
   const tokenVerified = await verifyToken(token);
 
-  console.log(token);
-  console.log(tokenVerified);
-
   const { pathname } = req.nextUrl;
   const isDashboardRoute = pathname.startsWith("/dashboards");
   const isHomeRoute = pathname === "/";

@@ -9,26 +9,24 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, Save, Plus, FileUp, Sparkles } from "lucide-react"
 import { FlashcardEditor } from "@/components/flashcards/flashcard-editor"
 import { useRouter } from "next/navigation"
+import axios from "axios"
 
 export default function NovoFlashcardDeckPage() {
   const router = useRouter()
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
-  const [isPublic, setIsPublic] = useState(false)
-  const [enableSpacedRepetition, setEnableSpacedRepetition] = useState(true)
+  const [isGenerating, setIsGenerating] = useState(false)
   const [cards, setCards] = useState([
-    { id: "1", front: "", back: "", image: null },
-    { id: "2", front: "", back: "", image: null },
+    { id: Date.now().toString(), front: "", back: "" }
   ])
 
   const handleAddCard = () => {
-    setCards([...cards, { id: Date.now().toString(), front: "", back: "", image: null }])
+    setCards([...cards, { id: Date.now().toString(), front: "", back: "" }])
   }
 
   const handleRemoveCard = (id) => {
@@ -40,10 +38,26 @@ export default function NovoFlashcardDeckPage() {
     setCards(cards.map((card) => (card.id === id ? { ...card, [field]: value } : card)))
   }
 
-  const handleSaveDeck = () => {
-    // Here you would call your API to save the deck
-    console.log({ title, description, category, isPublic, enableSpacedRepetition, cards })
-    // Then redirect to the flashcards list page
+  const handleSaveDeck = async () => {
+    try {
+      setIsGenerating(true)
+      const response = await axios.post("/api/flashcards", { 
+        title, description, category, cards
+      })
+
+      toast({
+        description: response.data.message,
+      })
+    } catch (error) {
+      console.log(error)
+      const response = error.response.data
+      toast({
+        description: response.message,
+      })
+    } finally {
+      setIsGenerating(false)
+    }
+
   }
 
   const handleGenerateFromText = () => {
@@ -54,19 +68,16 @@ export default function NovoFlashcardDeckPage() {
           id: "1",
           front: "O que é fotossíntese?",
           back: "Processo pelo qual plantas convertem luz solar em energia química",
-          image: null,
         },
         {
           id: "2",
           front: "Quais são as principais organelas da célula?",
           back: "Núcleo, mitocôndria, ribossomos, retículo endoplasmático, complexo de Golgi, lisossomos",
-          image: null,
         },
         {
           id: "3",
           front: "O que é a Lei de Mendel?",
           back: "Princípios que descrevem como os traços são transmitidos de pais para filhos através de genes",
-          image: null,
         },
       ])
     }, 1500)
@@ -126,18 +137,6 @@ export default function NovoFlashcardDeckPage() {
               </div>
             </div>
             <div className="space-y-4 pt-2">
-              <div className="flex items-center space-x-2">
-                <Switch id="public" checked={isPublic} onCheckedChange={setIsPublic} />
-                <Label htmlFor="public">Tornar deck público (compartilhável)</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="spaced-repetition"
-                  checked={enableSpacedRepetition}
-                  onCheckedChange={setEnableSpacedRepetition}
-                />
-                <Label htmlFor="spaced-repetition">Habilitar repetição espaçada</Label>
-              </div>
             </div>
           </CardContent>
         </Card>
@@ -177,9 +176,6 @@ export default function NovoFlashcardDeckPage() {
               <CardFooter className="flex justify-between border-t pt-6">
                 <Button variant="outline" onClick={handleAddCard}>
                   <Plus className="mr-2 h-4 w-4" /> Adicionar Card
-                </Button>
-                <Button onClick={handleSaveDeck}>
-                  <Save className="mr-2 h-4 w-4" /> Salvar Deck
                 </Button>
               </CardFooter>
             </Card>
@@ -274,7 +270,7 @@ export default function NovoFlashcardDeckPage() {
         </Tabs>
 
         <div className="flex justify-end">
-          <Button size="lg" onClick={handleSaveDeck}>
+          <Button size="lg" onClick={handleSaveDeck} disabled={!title.trim() || !description.trim() || !category.trim() || cards.length === 0}>
             <Save className="mr-2 h-4 w-4" /> Salvar Deck
           </Button>
         </div>
