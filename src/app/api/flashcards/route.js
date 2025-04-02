@@ -29,7 +29,7 @@ export async function POST(req) {
 
     const mappedCards = cards.map(item => ({ front: item.front, back: item.back, deckID: createdDeck.id, read: false }))
 
-    const createdCards = await prisma.card.createMany({
+    await prisma.card.createMany({
       data: mappedCards,
     })
 

@@ -23,9 +23,15 @@ export default function NovoFlashcardDeckPage() {
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
   const [isGenerating, setIsGenerating] = useState(false)
+  const [isGeneratingCardsByIA, setIsGeneratingCardsByIA] = useState(false)
   const [cards, setCards] = useState([
     { id: Date.now().toString(), front: "", back: "" }
   ])
+
+  const [descriptionByIA, setDescriptionByIA] = useState("")
+  const [generateType, setGenerateType] = useState("manual")
+  const [cardsGenerateQTD, setCardsGenerateQTD] = useState("10")
+  const [cardsGenerateDifficulty, setCardsGenerateDifficulty] = useState("medio")
 
   const handleAddCard = () => {
     setCards([...cards, { id: Date.now().toString(), front: "", back: "" }])
@@ -43,8 +49,9 @@ export default function NovoFlashcardDeckPage() {
   const handleSaveDeck = async () => {
     try {
       setIsGenerating(true)
+
       const response = await axios.post("/api/flashcards", { 
-        title, description, category, cards
+        title, description, category, cards, generateByIA: generateType === 'ai', descriptionByIA, cardsGenerateQTD, cardsGenerateDifficulty
       })
 
       toast({
@@ -62,27 +69,29 @@ export default function NovoFlashcardDeckPage() {
 
   }
 
-  const handleGenerateFromText = () => {
-    // Simulate API call to generate flashcards from text
-    setTimeout(() => {
-      setCards([
-        {
-          id: "1",
-          front: "O que é fotossíntese?",
-          back: "Processo pelo qual plantas convertem luz solar em energia química",
-        },
-        {
-          id: "2",
-          front: "Quais são as principais organelas da célula?",
-          back: "Núcleo, mitocôndria, ribossomos, retículo endoplasmático, complexo de Golgi, lisossomos",
-        },
-        {
-          id: "3",
-          front: "O que é a Lei de Mendel?",
-          back: "Princípios que descrevem como os traços são transmitidos de pais para filhos através de genes",
-        },
-      ])
-    }, 1500)
+  const handleGenerateFromText = async () => {
+    try {
+      setIsGeneratingCardsByIA(true)
+      const response = await axios.post(`/api/flashcards/IA`, {
+        descriptionByIA,
+        cardsGenerateQTD,
+        cardsGenerateDifficulty
+      })
+
+      setCards(response.data.data)
+
+      toast({
+        description: response.data.message,
+      })
+    } catch (error) {
+      console.log(error)
+      const response = error.response.data
+      toast({
+        description: response.message,
+      })
+    } finally {
+      setIsGeneratingCardsByIA(false)
+    }
   }
 
   return (
@@ -145,9 +154,9 @@ export default function NovoFlashcardDeckPage() {
 
         <Tabs defaultValue="manual" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="manual">Criação Manual</TabsTrigger>
-            <TabsTrigger value="ai">Geração por IA</TabsTrigger>
-            <TabsTrigger value="import">Importar</TabsTrigger>
+            <TabsTrigger value="manual" onClick={() => setGenerateType("manual")}>Criação Manual</TabsTrigger>
+            <TabsTrigger value="ai" onClick={() => setGenerateType("ai")}>Geração por IA</TabsTrigger>
+            <TabsTrigger value="import" onClick={() => setGenerateType("import")}>Importar</TabsTrigger>
           </TabsList>
 
           <TabsContent value="manual" className="space-y-4">
@@ -198,12 +207,13 @@ export default function NovoFlashcardDeckPage() {
                     id="source-text"
                     placeholder="Cole aqui o texto do qual você deseja gerar flashcards..."
                     rows={8}
+                    onChange={(e) => setDescriptionByIA(e.target.value)}
                   />
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="card-count">Número de Cards</Label>
-                    <Select defaultValue="10">
+                    <Select defaultValue={cardsGenerateQTD} onValueChange={setCardsGenerateQTD}>
                       <SelectTrigger id="card-count">
                         <SelectValue placeholder="Quantidade de cards" />
                       </SelectTrigger>
@@ -217,7 +227,7 @@ export default function NovoFlashcardDeckPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="difficulty">Nível de Dificuldade</Label>
-                    <Select defaultValue="medio">
+                    <Select defaultValue={cardsGenerateDifficulty} onValueChange={setCardsGenerateDifficulty} >
                       <SelectTrigger id="difficulty">
                         <SelectValue placeholder="Dificuldade" />
                       </SelectTrigger>
@@ -229,10 +239,41 @@ export default function NovoFlashcardDeckPage() {
                     </Select>
                   </div>
                 </div>
-                <Button className="w-full" onClick={handleGenerateFromText}>
+                <Button className="w-full" onClick={handleGenerateFromText} disabled={isGeneratingCardsByIA}>
                   <Sparkles className="mr-2 h-4 w-4" /> Gerar Flashcards
                 </Button>
               </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle>Flashcards</CardTitle>
+                  <Button onClick={handleAddCard} variant="outline" size="sm">
+                    <Plus className="mr-1 h-4 w-4" /> Adicionar Card
+                  </Button>
+                </div>
+                <CardDescription>
+                  Cards gerados via IA
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {cards.map((card, index) => (
+                  <FlashcardEditor
+                    key={card.id}
+                    index={index + 1}
+                    card={card}
+                    onChange={(field, value) => handleCardChange(card.id, field, value)}
+                    onRemove={() => handleRemoveCard(card.id)}
+                    canRemove={cards.length > 1}
+                  />
+                ))}
+              </CardContent>
+              <CardFooter className="flex justify-between border-t pt-6">
+                <Button variant="outline" onClick={handleAddCard}>
+                  <Plus className="mr-2 h-4 w-4" /> Adicionar Card
+                </Button>
+              </CardFooter>
             </Card>
           </TabsContent>
 
@@ -272,7 +313,7 @@ export default function NovoFlashcardDeckPage() {
         </Tabs>
 
         <div className="flex justify-end">
-          <Button size="lg" onClick={handleSaveDeck} disabled={!title.trim() || !description.trim() || !category.trim() || cards.length === 0 || isGenerating}>
+          <Button size="lg" onClick={handleSaveDeck} disabled={!title.trim() || !description.trim() || !category.trim() || cards.length === 0 || isGenerating || isGeneratingCardsByIA}>
             {isGenerating ? (
               <><Save className="mr-2 h-4 w-4" /> Salvando Deck</>
             ) : (

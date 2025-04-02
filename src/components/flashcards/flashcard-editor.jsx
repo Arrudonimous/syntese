@@ -14,10 +14,6 @@ export function FlashcardEditor({ index, card, onChange, onRemove, canRemove }) 
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-medium">Card #{index}</h3>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={() => setFlipped(!flipped)} className="h-8 px-2 text-xs">
-            <ArrowLeftRight className="mr-1 h-3.5 w-3.5" />
-            {flipped ? "Ver Frente" : "Ver Verso"}
-          </Button>
           {canRemove && (
             <Button
               variant="ghost"
@@ -55,14 +51,6 @@ export function FlashcardEditor({ index, card, onChange, onRemove, canRemove }) 
             className="resize-none"
           />
         </div>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm" className="text-xs">
-          <Image className="mr-1 h-3.5 w-3.5" />
-          Adicionar Imagem
-        </Button>
-        <span className="text-xs text-muted-foreground">Opcional: adicione uma imagem para ajudar na memorização</span>
       </div>
     </div>
   )
