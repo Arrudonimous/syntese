@@ -5,8 +5,6 @@ export async function POST(req) {
   try {
     const { title, description, category, cards } = await req.json();
 
-    
-
     const cookieStore = await cookies();
     const userID = cookieStore.get("userId").value
     

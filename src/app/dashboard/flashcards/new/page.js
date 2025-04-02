@@ -67,6 +67,7 @@ export default function NovoFlashcardDeckPage() {
       setIsGenerating(false)
     }
 
+    router.back()
   }
 
   const handleGenerateFromText = async () => {
