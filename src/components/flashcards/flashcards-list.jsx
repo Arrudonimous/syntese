@@ -121,7 +121,7 @@ export function FlashcardsList() {
               Nenhum deck de flashcards encontrado. Crie um novo deck para começar.
             </p>
             <Button asChild className="mt-4">
-              <Link href="/dashboard/flashcards/novo">Criar Deck</Link>
+              <Link href="/dashboard/flashcards/new">Criar Deck</Link>
             </Button>
           </CardContent>
         </Card>

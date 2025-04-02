@@ -148,7 +148,7 @@ export default function ResumoViewPage() {
                 {isLoading ? <Skeleton className="w-full h-20 rounded-xl" /> : (
                   <>
                     <Button className="w-full justify-start" variant="outline" asChild>
-                      <Link href={`/dashboard/resumos/novo?source=${abstractId}`}>
+                      <Link href={`/dashboard/resumos/new?source=${abstractId}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -169,7 +169,7 @@ export default function ResumoViewPage() {
                       </Link>
                     </Button>
                     <Button className="w-full justify-start" variant="outline" asChild>
-                      <Link href={`/dashboard/flashcards/novo?source=${abstractId}`}>
+                      <Link href={`/dashboard/flashcards/new?source=${abstractId}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"

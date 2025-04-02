@@ -212,7 +212,7 @@ export function DocumentList() {
                     </Link>
                   </Button>
                   <Button asChild>
-                    <Link href="/dashboard/documents/novo">
+                    <Link href="/dashboard/documents/new">
                       <Plus className="mr-2 h-4 w-4" /> Novo Documento
                     </Link>
                   </Button>
@@ -308,7 +308,7 @@ export function DocumentList() {
                       </Link>
                     </Button>
                     <Button asChild>
-                      <Link href="/dashboard/documents/novo">
+                      <Link href="/dashboard/documents/new">
                         <Plus className="mr-2 h-4 w-4" /> Criar
                       </Link>
                     </Button>
@@ -339,7 +339,7 @@ export function DocumentList() {
                       </Link>
                     </Button>
                     <Button asChild>
-                      <Link href="/dashboard/documents/novo">
+                      <Link href="/dashboard/documents/new">
                         <Plus className="mr-2 h-4 w-4" /> Novo Documento
                       </Link>
                     </Button>
