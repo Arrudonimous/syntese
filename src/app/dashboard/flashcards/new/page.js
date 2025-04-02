@@ -14,9 +14,11 @@ import { ArrowLeft, Save, Plus, FileUp, Sparkles } from "lucide-react"
 import { FlashcardEditor } from "@/components/flashcards/flashcard-editor"
 import { useRouter } from "next/navigation"
 import axios from "axios"
+import { useToast } from "@/hooks/use-toast"
 
 export default function NovoFlashcardDeckPage() {
   const router = useRouter()
+  const { toast } = useToast()
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
@@ -270,8 +272,14 @@ export default function NovoFlashcardDeckPage() {
         </Tabs>
 
         <div className="flex justify-end">
-          <Button size="lg" onClick={handleSaveDeck} disabled={!title.trim() || !description.trim() || !category.trim() || cards.length === 0}>
-            <Save className="mr-2 h-4 w-4" /> Salvar Deck
+          <Button size="lg" onClick={handleSaveDeck} disabled={!title.trim() || !description.trim() || !category.trim() || cards.length === 0 || isGenerating}>
+            {isGenerating ? (
+              <><Save className="mr-2 h-4 w-4" /> Salvando Deck</>
+            ) : (
+              <>
+                  <Save className="mr-2 h-4 w-4" /> Salvar Deck
+              </>
+            )}
           </Button>
         </div>
       </div>

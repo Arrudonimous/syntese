@@ -9,7 +9,7 @@ export async function POST(req) {
 
     const cookieStore = await cookies();
     const userID = cookieStore.get("userId").value
-
+    
     console.log({
       title,
       description,
@@ -59,14 +59,37 @@ export async function GET(req) {
     const cookieStore = await cookies();
     const userID = cookieStore.get("userId").value
 
-    const abstracts = await prisma.abstract.findMany({
+    const flashcardDecks = await prisma.flashcardDeck.findMany({
       where: {
         userID,
       }
     })
 
+    const findCardsByDeckID = async (deckID) => {
+      const cards = await prisma.card.findMany({
+        where: {
+          deckID,
+        }
+      })
+
+      const cardsReadCount = cards.filter(item => item.read === true).length
+      const dueCards = cards.length - cardsReadCount
+
+      const progress = (cardsReadCount / cards.length) * 100
+
+      return { cards, progress, dueCards }
+    }
+    
+    const decksWithCards = await Promise.all(
+      flashcardDecks.map(async (deck) => {
+        const { cards, progress, dueCards } = await findCardsByDeckID(deck.id);
+        
+        return { ...deck, cards, cardCount: cards.length, progress, dueCards };
+      })
+    )
+
     return Response.json(
-      { type: "success", data: abstracts, message: "Resumos achados" },
+      { type: "success", data: decksWithCards, message: "Decks encontrados" },
       { status: 200 }
     );
   } catch (error) {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Brain, MoreHorizontal, Pencil, Trash2, Play, Search, Clock, BarChart, Plus, Layers } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -16,55 +16,14 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
-// Sample data for demonstration
-const flashcardDecksSample = [
-  {
-    id: "1",
-    title: "Biologia Celular",
-    description: "Conceitos fundamentais sobre células e organelas",
-    cardCount: 42,
-    progress: 75,
-    lastStudied: "2023-07-15T10:30:00Z",
-    category: "Ciências",
-    dueCards: 8,
-  },
-  {
-    id: "2",
-    title: "Vocabulário de Inglês - Negócios",
-    description: "Termos e expressões para ambiente corporativo",
-    cardCount: 64,
-    progress: 45,
-    lastStudied: "2023-07-12T14:45:00Z",
-    category: "Idiomas",
-    dueCards: 15,
-  },
-  {
-    id: "3",
-    title: "História do Brasil - República",
-    description: "Eventos importantes da República brasileira",
-    cardCount: 38,
-    progress: 90,
-    lastStudied: "2023-07-14T09:15:00Z",
-    category: "História",
-    dueCards: 3,
-  },
-  {
-    id: "4",
-    title: "Programação - JavaScript",
-    description: "Conceitos e sintaxe de JavaScript",
-    cardCount: 56,
-    progress: 30,
-    lastStudied: "2023-07-10T16:20:00Z",
-    category: "Tecnologia",
-    dueCards: 22,
-  },
-]
+import axios from "axios"
+import renderSkeletonCards from "../skeletonCards"
 
 export function FlashcardsList() {
   const [searchQuery, setSearchQuery] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("todos")
-  const [decks, setDecks] = useState(flashcardDecksSample)
+  const [decks, setDecks] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const filteredDecks = decks.filter((deck) => {
     const matchesSearch =
@@ -105,6 +64,25 @@ export function FlashcardsList() {
     }
   }
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        const flashcardsDeck = await axios.get("/api/flashcards")
+
+        console.log(flashcardsDeck.data.data)
+        setDecks(flashcardsDeck.data.data)
+      } catch (error) {
+        console.error("Erro ao buscar flashcards:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -133,7 +111,9 @@ export function FlashcardsList() {
         </div>
       </div>
 
-      {filteredDecks.length === 0 ? (
+
+
+      {isLoading ? renderSkeletonCards() : filteredDecks.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-10">
             <Brain className="h-10 w-10 text-muted-foreground" />
@@ -146,105 +126,105 @@ export function FlashcardsList() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {filteredDecks.map((deck) => (
-            <Card key={deck.id} className="flex flex-col">
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle className="line-clamp-1 text-lg">{deck.title}</CardTitle>
-                    <Badge className={`mt-1 ${getCategoryColor(deck.category)}`} variant="secondary">
-                      {deck.category}
-                    </Badge>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="-mr-2 h-8 w-8">
-                        <MoreHorizontal className="h-4 w-4" />
-                        <span className="sr-only">Ações</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem asChild>
-                        <Link href={`/dashboard/flashcards/${deck.id}/study`}>
-                          <Play className="mr-2 h-4 w-4" /> Estudar
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link href={`/dashboard/flashcards/${deck.id}`}>
-                          <Layers className="mr-2 h-4 w-4" /> Ver Cards
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link href={`/dashboard/flashcards/${deck.id}/editar`}>
-                          <Pencil className="mr-2 h-4 w-4" /> Editar
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link href={`/dashboard/flashcards/${deck.id}/estatisticas`}>
-                          <BarChart className="mr-2 h-4 w-4" /> Estatísticas
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        className="text-destructive focus:text-destructive"
-                        onClick={() => handleDelete(deck.id)}
-                      >
-                        <Trash2 className="mr-2 h-4 w-4" /> Excluir
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-                <CardDescription className="line-clamp-2 pt-1">{deck.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-1 pb-2">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <span>Progresso</span>
-                    <span className="font-medium">{deck.progress}%</span>
-                  </div>
-                  <Progress value={deck.progress} className="h-2" />
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <div className="flex items-center">
-                      <Layers className="mr-1 h-4 w-4" />
-                      <span>{deck.cardCount} cards</span>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {filteredDecks.map((deck) => (
+              <Card key={deck.id} className="flex flex-col">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="line-clamp-1 text-lg">{deck.title}</CardTitle>
+                      <Badge className={`mt-1 ${getCategoryColor(deck.category)}`} variant="secondary">
+                        {deck.category}
+                      </Badge>
                     </div>
-                    <div className="flex items-center">
-                      <Clock className="mr-1 h-4 w-4" />
-                      <span>{deck.dueCards} pendentes</span>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="-mr-2 h-8 w-8">
+                          <MoreHorizontal className="h-4 w-4" />
+                          <span className="sr-only">Ações</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem asChild>
+                          <Link href={`/dashboard/flashcards/${deck.id}/study`}>
+                            <Play className="mr-2 h-4 w-4" /> Estudar
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href={`/dashboard/flashcards/${deck.id}`}>
+                            <Layers className="mr-2 h-4 w-4" /> Ver Cards
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href={`/dashboard/flashcards/${deck.id}/editar`}>
+                            <Pencil className="mr-2 h-4 w-4" /> Editar
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href={`/dashboard/flashcards/${deck.id}/estatisticas`}>
+                            <BarChart className="mr-2 h-4 w-4" /> Estatísticas
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          className="text-destructive focus:text-destructive"
+                          onClick={() => handleDelete(deck.id)}
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" /> Excluir
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                  <CardDescription className="line-clamp-2 pt-1">{deck.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 pb-2">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between text-sm">
+                      <span>Progresso</span>
+                      <span className="font-medium">{deck.progress}%</span>
+                    </div>
+                    <Progress value={deck.progress} className="h-2" />
+                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                      <div className="flex items-center">
+                        <Layers className="mr-1 h-4 w-4" />
+                        <span>{deck.cardCount} cards</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="mr-1 h-4 w-4" />
+                        <span>{deck.dueCards} pendentes</span>
+                      </div>
                     </div>
                   </div>
+                </CardContent>
+                <CardFooter className="flex items-center justify-between border-t pt-3">
+                  <div className="text-xs text-muted-foreground">Último estudo: {formatDate(deck.lastUpdated)}</div>
+                  <Button size="sm" asChild>
+                    <Link href={`/dashboard/flashcards/${deck.id}/study`}>
+                      <Play className="mr-1 h-3 w-3" /> Estudar
+                    </Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+
+            {/* Add New Deck Card */}
+            <Card className="flex flex-col border-dashed">
+              <CardContent className="flex h-full flex-col items-center justify-center p-6">
+                <div className="mb-4 rounded-full bg-primary/10 p-3">
+                  <Plus className="h-6 w-6 text-primary" />
                 </div>
-              </CardContent>
-              <CardFooter className="flex items-center justify-between border-t pt-3">
-                <div className="text-xs text-muted-foreground">Último estudo: {formatDate(deck.lastStudied)}</div>
-                <Button size="sm" asChild>
-                  <Link href={`/dashboard/flashcards/${deck.id}/study`}>
-                    <Play className="mr-1 h-3 w-3" /> Estudar
+                <h3 className="mb-2 text-lg font-medium">Criar Novo Deck</h3>
+                <p className="mb-4 text-center text-sm text-muted-foreground">
+                  Adicione um novo conjunto de flashcards para estudar
+                </p>
+                <Button asChild>
+                  <Link href="/dashboard/flashcards/new">
+                    <Plus className="mr-2 h-4 w-4" /> Novo Deck
                   </Link>
                 </Button>
-              </CardFooter>
+              </CardContent>
             </Card>
-          ))}
-
-          {/* Add New Deck Card */}
-          <Card className="flex flex-col border-dashed">
-            <CardContent className="flex h-full flex-col items-center justify-center p-6">
-              <div className="mb-4 rounded-full bg-primary/10 p-3">
-                <Plus className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="mb-2 text-lg font-medium">Criar Novo Deck</h3>
-              <p className="mb-4 text-center text-sm text-muted-foreground">
-                Adicione um novo conjunto de flashcards para estudar
-              </p>
-              <Button asChild>
-                <Link href="/dashboard/flashcards/new">
-                  <Plus className="mr-2 h-4 w-4" /> Novo Deck
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+          </div>
       )}
     </div>
   )

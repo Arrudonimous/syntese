@@ -6,6 +6,7 @@ import { FileText, Mail, Zap, BookOpen, Brain } from "lucide-react"
 import React, { useEffect, useState } from "react"
 import { Skeleton } from "../ui/skeleton"
 import sliceWord from "@/utils/sliceWord"
+import renderSkeletonCards from "../skeletonCards"
 
 const mockActivities = [
   {
@@ -107,30 +108,6 @@ export function ActivityTimeline() {
 
     fetchData()
   }, [])
-
-
-  const renderSkeletonCards = () => {
-    const skeletonCard = (
-      <div className="flex items-start space-x-4 h-10">
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
-          <Skeleton className="w-full rounded-xl" />
-        </div>
-        <div className="space-y-1 w-full">
-          <div className="flex w-full items-center ">
-            <Skeleton className="w-full h-9 rounded-xl" />
-          </div>
-        </div>
-      </div>
-    );
-
-    return (
-      <div className="space-y-4">
-        {Array.from({ length: 3 }, (_, index) => (
-          <React.Fragment key={index}>{skeletonCard}</React.Fragment>
-        ))}
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-4">

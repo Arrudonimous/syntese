@@ -22,6 +22,7 @@ import axios from "axios"
 import { Skeleton } from "../ui/skeleton"
 import { useToast } from "@/hooks/use-toast"
 import sliceWord from "@/utils/sliceWord"
+import renderSkeletonCards from "../skeletonCards"
 
 export function CitacoesList() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -92,35 +93,6 @@ export function CitacoesList() {
       title: "Texto copiado",
       description: "O conteúdo da citação foi copiado para a área de transferência.",
     })
-  }
-
-  const renderSkeletonCards = () => {
-    const skeletonCard = (
-      <Card className="flex flex-col">
-        <CardHeader className="pb-3">
-          <div className="flex items-start justify-between">
-            <Skeleton className="w-full h-10 rounded-xl" />
-          </div>
-          <CardDescription className="line-clamp-2 pt-1">
-            <Skeleton className="rounded-xl" />
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex-1 pb-2">
-          <ScrollArea className="h-10" />
-        </CardContent>
-        <CardFooter className="flex items-center justify-between border-t pt-3">
-          <Skeleton className="rounded-xl" />
-        </CardFooter>
-      </Card>
-    );
-
-    return (
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {Array.from({ length: 3 }, (_, index) => (
-          <React.Fragment key={index}>{skeletonCard}</React.Fragment>
-        ))}
-      </div>
-    );
   }
 
   useEffect(() => {
