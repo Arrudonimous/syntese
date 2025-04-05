@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import axios from "axios"
 import renderSkeletonCards from "../skeletonCards"
 
@@ -24,6 +25,9 @@ export function FlashcardsList() {
   const [categoryFilter, setCategoryFilter] = useState("todos")
   const [decks, setDecks] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
 
   const filteredDecks = decks.filter((deck) => {
     const matchesSearch =
@@ -44,9 +48,19 @@ export function FlashcardsList() {
     }).format(date)
   }
 
-  const handleDelete = (id) => {
-    setDecks(decks.filter((deck) => deck.id !== id))
-    // Here you would also call your API to delete the deck
+  const handleDelete = async () => {
+    if (!deleteId) return
+
+    try {
+      setIsDeleting(true)
+      await axios.delete(`/api/flashcards/${deleteId}`)
+      setDecks(decks.filter((deck) => deck.id !== id))
+      setIsDialogOpen(false)
+    } catch (error) {
+      console.error("Erro ao excluir deck:", error)
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   const getCategoryColor = (category) => {
@@ -113,7 +127,7 @@ export function FlashcardsList() {
 
 
 
-      {isLoading ? renderSkeletonCards() : filteredDecks.length === 0 ? (
+      {isLoading || isDeleting ? renderSkeletonCards() : filteredDecks.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-10">
             <Brain className="h-10 w-10 text-muted-foreground" />
@@ -155,20 +169,13 @@ export function FlashcardsList() {
                             <Layers className="mr-2 h-4 w-4" /> Ver Cards
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                          <Link href={`/dashboard/flashcards/${deck.id}/editar`}>
-                            <Pencil className="mr-2 h-4 w-4" /> Editar
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                          <Link href={`/dashboard/flashcards/${deck.id}/estatisticas`}>
-                            <BarChart className="mr-2 h-4 w-4" /> Estatísticas
-                          </Link>
-                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                           className="text-destructive focus:text-destructive"
-                          onClick={() => handleDelete(deck.id)}
+                          onClick={() => {
+                            setDeleteId(deck.id)
+                            setIsDialogOpen(true)
+                          }}
                         >
                           <Trash2 className="mr-2 h-4 w-4" /> Excluir
                         </DropdownMenuItem>
@@ -226,6 +233,21 @@ export function FlashcardsList() {
             </Card>
           </div>
       )}
+
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Tem certeza que deseja excluir?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta ação não pode ser desfeita. O resumo será permanentemente removido.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete}>Excluir</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

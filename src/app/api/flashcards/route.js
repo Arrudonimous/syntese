@@ -33,7 +33,7 @@ export async function POST(req) {
 
     await prisma.log.create({
       data: {
-        logType: 1,
+        logType: 5,
         description: `Você criou um deck com titulo: ${title}`,
         userID
       },

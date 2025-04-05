@@ -14,5 +14,13 @@ export const logTypes = [
   {
     id: 4,
     title: 'Citação deletada'
+  },
+  {
+    id: 5,
+    title: 'Deck Criado'
+  },
+  {
+    id: 6,
+    title: 'Deck deletado'
   }
 ]

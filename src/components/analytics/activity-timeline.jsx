@@ -58,6 +58,7 @@ export function ActivityTimeline() {
   const getActivitieIcon = (type) => {
     if (type === 1 || type === 2) return <Zap className="h-4 w-4" />
     if (type === 3 || type === 4) return <BookOpen className="h-4 w-4" />
+    if (type === 5 || type === 6) return <Brain className="h-4 w-4" />
   }
 
   const getActivitieTime = (date) => {
@@ -83,6 +84,7 @@ export function ActivityTimeline() {
   };
 
   const getActivities = (activitiesIncoming) => {
+    console.log(activitiesIncoming)
     return activitiesIncoming.map((item => {
       return {
         title: logTypes.find((logType) => logType.id === item.logType).title,
