@@ -1,53 +1,50 @@
 "use client"
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts"
-
-const data = [
-  {
-    name: "Jan",
-    resumos: 12,
-    citacoes: 8,
-    flashcards: 24,
-    emails: 5,
-  },
-  {
-    name: "Fev",
-    resumos: 16,
-    citacoes: 10,
-    flashcards: 30,
-    emails: 7,
-  },
-  {
-    name: "Mar",
-    resumos: 24,
-    citacoes: 15,
-    flashcards: 45,
-    emails: 9,
-  },
-  {
-    name: "Abr",
-    resumos: 28,
-    citacoes: 12,
-    flashcards: 52,
-    emails: 6,
-  },
-  {
-    name: "Mai",
-    resumos: 32,
-    citacoes: 18,
-    flashcards: 68,
-    emails: 8,
-  },
-  {
-    name: "Jun",
-    resumos: 38,
-    citacoes: 22,
-    flashcards: 75,
-    emails: 10,
-  },
-]
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 export function PerformanceChart({ className }) {
+  const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        const analytics = await axios.get("/api/analytics")
+        setData(analytics.data.data)
+      } catch (error) {
+        console.error("Erro ao buscar analytics:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+
+  if(isLoading){
+    return (
+      <div className={`rounded-lg border bg-card p-6 shadow-sm animate-pulse ${className}`}>
+        <div className="flex flex-col space-y-4">
+          <div className="h-6 w-32 rounded bg-muted" />
+          <div className="h-4 w-64 rounded bg-muted" />
+          <div className="h-[300px] w-full space-y-2 mt-4">
+            <div className="flex items-end justify-between h-full">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="flex flex-col items-center space-y-2">
+                  <div className="w-6 rounded bg-muted" style={{ height: `${Math.random() * 100 + 50}px` }} />
+                  <div className="h-3 w-6 rounded bg-muted-foreground" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className={`rounded-lg border bg-card p-6 shadow-sm ${className}`}>
       <div className="flex flex-col space-y-4">

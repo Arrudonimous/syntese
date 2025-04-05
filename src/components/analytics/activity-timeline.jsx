@@ -84,7 +84,6 @@ export function ActivityTimeline() {
   };
 
   const getActivities = (activitiesIncoming) => {
-    console.log(activitiesIncoming)
     return activitiesIncoming.map((item => {
       return {
         title: logTypes.find((logType) => logType.id === item.logType).title,
@@ -100,6 +99,10 @@ export function ActivityTimeline() {
       try {
         setIsLoading(true)
         const logs = await axios.get("/api/logs")
+        const analytics = await axios.get("/api/analytics/actualMonth")
+
+        console.log(analytics.data.data)
+
         setActivities(getActivities(logs.data.data))
       } catch (error) {
         console.error("Erro ao buscar logs:", error)

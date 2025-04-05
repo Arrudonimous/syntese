@@ -2,6 +2,9 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowUpRight, ArrowDownRight, BookOpen, Brain, Mail, Zap } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Skeleton } from "../ui/skeleton"
+import axios from "axios"
 
 const metrics = [
   {
@@ -35,6 +38,47 @@ const metrics = [
 ]
 
 export function UsageMetrics() {
+  const [metrics, setMetrics] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  console.log(metrics)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        const analytics = await axios.get("/api/analytics/actualMonth")
+
+        setMetrics(analytics.data.data)
+      } catch (error) {
+        console.error("Erro ao buscar logs:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  if(isLoading){
+    return (
+      <>
+        {[...Array(4)].map((_, index) => (
+          <Card key={index} className="animate-pulse">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-6 w-6 rounded-full" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="h-8 w-20 mb-2" /> {/* valor */}
+              <Skeleton className="h-3 w-36" />
+            </CardContent>
+          </Card>
+        ))}
+      </>
+    );
+  }
+
   return (
     <>
       {metrics.map((metric) => (
