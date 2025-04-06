@@ -55,7 +55,6 @@ export function ProfileSettings() {
         title: "Perfil atualizado",
         description: "Suas informações de perfil foram atualizadas com sucesso.",
       })
-      console.log(data)
     }, 1000)
   }
 

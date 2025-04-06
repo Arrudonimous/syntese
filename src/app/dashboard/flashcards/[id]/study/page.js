@@ -81,7 +81,6 @@ export default function EstudarFlashcardsPage() {
         setIsLoading(true)
         const deck = await axios.get(`/api/flashcards/${deckId}`)
 
-        console.log(deck.data.data)
         setFlashCardDeckCards(deck.data.data.cards)
         setFlashCardDeck(deck.data.data)
       } catch (error) {

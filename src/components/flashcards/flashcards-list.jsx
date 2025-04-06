@@ -85,7 +85,6 @@ export function FlashcardsList() {
         setIsLoading(true)
         const flashcardsDeck = await axios.get("/api/flashcards")
 
-        console.log(flashcardsDeck.data.data)
         setDecks(flashcardsDeck.data.data)
       } catch (error) {
         console.error("Erro ao buscar flashcards:", error)

@@ -99,9 +99,6 @@ export function ActivityTimeline() {
       try {
         setIsLoading(true)
         const logs = await axios.get("/api/logs")
-        const analytics = await axios.get("/api/analytics/actualMonth")
-
-        console.log(analytics.data.data)
 
         setActivities(getActivities(logs.data.data))
       } catch (error) {

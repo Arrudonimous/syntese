@@ -41,8 +41,6 @@ export function UsageMetrics() {
   const [metrics, setMetrics] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
-  console.log(metrics)
-
   useEffect(() => {
     const fetchData = async () => {
       try {

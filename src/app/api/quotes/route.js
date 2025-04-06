@@ -66,8 +66,6 @@ export async function POST(req) {
       },
     })
 
-    // console.log(createdQuote)
-
     return Response.json(
       { type: "success", data: textResponse, message: "Citação gerada" },
       { status: 200 }
