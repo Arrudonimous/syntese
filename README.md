@@ -1,96 +1,83 @@
-Claro! Aqui está o conteúdo final do `README.md` com as versões em **Português** e **Inglês**, escrito como se fosse você mesmo apresentando o projeto **Syntese**:
+🧠 Syntese - IA de Resumo de Textos
+🇧🇷 Versão em Português | 🇺🇸 English Version
 
----
-
-````markdown
-# 🧠 Syntese - IA de Resumo de Textos
-
-[🇧🇷 Versão em Português](#versão-em-português) | [🇺🇸 English Version](#english-version)
-
----
-
-## 🇧🇷 Versão em Português
-
+🇧🇷 Versão em Português
 Olá! 👋
 
-Este é o **Syntese**, um projeto que criei para explorar o uso de **inteligência artificial na geração de resumos automáticos**. A proposta é simples: você cola um texto no campo indicado, e a IA retorna um resumo objetivo com os principais pontos.
+Este é o Syntese, um projeto que criei para explorar o uso de inteligência artificial na geração de resumos automáticos. A proposta é simples: você cola um texto no campo indicado, e a IA retorna um resumo objetivo com os principais pontos.
 
 Criei essa ferramenta como uma forma de aprendizado prático em integrações com modelos de linguagem natural, além de facilitar o consumo de conteúdos longos como artigos, relatórios e textos acadêmicos.
 
-### 💡 Funcionalidades
+💡 Funcionalidades
+Área de texto para colar qualquer conteúdo
 
-- Área de texto para colar qualquer conteúdo  
-- Geração de resumo automático com IA  
-- Interface limpa e objetiva  
+Geração de resumo automático com IA
 
-### 🛠️ Tecnologias Utilizadas
+Interface limpa e objetiva
 
-- HTML5  
-- CSS3  
-- JavaScript  
-- Integração com API de IA (como OpenAI)
+🛠️ Tecnologias Utilizadas
+HTML5
 
-### 🚀 Como rodar localmente
+CSS3
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/Arrudonimous/syntese.git
-````
+JavaScript
 
-2. Acesse a pasta do projeto:
+Integração com API de IA (como OpenAI)
 
-   ```bash
-   cd syntese
-   ```
-3. Abra o arquivo `index.html` no navegador.
+🚀 Como rodar localmente
+Clone o repositório:
 
----
+bash
+Copiar
+Editar
+git clone https://github.com/Arrudonimous/syntese.git
+Acesse a pasta do projeto:
 
-## 🇺🇸 English Version
+bash
+Copiar
+Editar
+cd syntese
+Abra o arquivo index.html no navegador.
 
+🇺🇸 English Version
 Hey there! 👋
 
-This is **Syntese**, a project I built to explore how **artificial intelligence can be used to generate automatic summaries**. The idea is simple: paste a text in the input area, and the AI will return a concise summary with the key points.
+This is Syntese, a project I built to explore how artificial intelligence can be used to generate automatic summaries. The idea is simple: paste a text in the input area, and the AI will return a concise summary with the key points.
 
 I created this tool as a hands-on learning project to practice integrating with language models, while also helping myself digest long content like articles, reports, or academic texts more efficiently.
 
-### 💡 Features
+💡 Features
+Text area to paste any content
 
-* Text area to paste any content
-* Automatic summary generation using AI
-* Clean and focused interface
+Automatic summary generation using AI
 
-### 🛠️ Technologies Used
+Clean and focused interface
 
-* HTML5
-* CSS3
-* JavaScript
-* Integration with AI API (such as OpenAI)
+🛠️ Technologies Used
+HTML5
 
-### 🚀 How to run locally
+CSS3
 
-1. Clone the repository:
+JavaScript
 
-   ```bash
-   git clone https://github.com/Arrudonimous/syntese.git
-   ```
-2. Navigate to the project folder:
+Integration with AI API (such as OpenAI)
 
-   ```bash
-   cd syntese
-   ```
-3. Open the `index.html` file in your browser.
+🚀 How to run locally
+Clone the repository:
 
----
+bash
+Copiar
+Editar
+git clone https://github.com/Arrudonimous/syntese.git
+Navigate to the project folder:
+
+bash
+Copiar
+Editar
+cd syntese
+Open the index.html file in your browser.
 
 📌 Projeto simples, com foco em aprendizado e experimentação com IA.
 📌 Simple project focused on learning and experimenting with AI.
 
 Obrigado por visitar! / Thanks for checking it out!
-
-```
-
----
-
-Se quiser, posso adicionar um preview do projeto como imagem ou GIF. Deseja isso também?
-```
