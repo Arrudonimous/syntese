@@ -1,83 +1,88 @@
-🧠 Syntese - IA de Resumo de Textos
-🇧🇷 Versão em Português | 🇺🇸 English Version
+# 🧠 Syntese - IA de Resumo de Textos
 
-🇧🇷 Versão em Português
+[🇧🇷 Versão em Português](#versão-em-português) | [🇺🇸 English Version](#english-version)
+
+---
+
+## 🇧🇷 Versão em Português
+
 Olá! 👋
 
-Este é o Syntese, um projeto que criei para explorar o uso de inteligência artificial na geração de resumos automáticos. A proposta é simples: você cola um texto no campo indicado, e a IA retorna um resumo objetivo com os principais pontos.
+Este é o **Syntese**, um projeto que criei para explorar o uso de **inteligência artificial na geração de resumos automáticos**. A proposta é simples: você cola um texto no campo indicado, e a IA retorna um resumo objetivo com os principais pontos.
 
 Criei essa ferramenta como uma forma de aprendizado prático em integrações com modelos de linguagem natural, além de facilitar o consumo de conteúdos longos como artigos, relatórios e textos acadêmicos.
 
-💡 Funcionalidades
-Área de texto para colar qualquer conteúdo
+### 💡 Funcionalidades
 
-Geração de resumo automático com IA
+- Área de texto para colar qualquer conteúdo  
+- Geração de resumo automático com IA  
+- Interface limpa e objetiva  
 
-Interface limpa e objetiva
+### 🛠️ Tecnologias Utilizadas
 
-🛠️ Tecnologias Utilizadas
-HTML5
+- HTML5  
+- CSS3  
+- JavaScript  
+- Integração com API de IA (como OpenAI)
 
-CSS3
+### 🚀 Como rodar localmente
 
-JavaScript
+1. Clone o repositório:
 
-Integração com API de IA (como OpenAI)
-
-🚀 Como rodar localmente
-Clone o repositório:
-
-bash
-Copiar
-Editar
+```bash
 git clone https://github.com/Arrudonimous/syntese.git
-Acesse a pasta do projeto:
+```
 
-bash
-Copiar
-Editar
+2. Acesse a pasta do projeto:
+
+```bash
 cd syntese
-Abra o arquivo index.html no navegador.
+```
 
-🇺🇸 English Version
+3. Abra o arquivo `index.html` no navegador.
+
+---
+
+## 🇺🇸 English Version
+
 Hey there! 👋
 
-This is Syntese, a project I built to explore how artificial intelligence can be used to generate automatic summaries. The idea is simple: paste a text in the input area, and the AI will return a concise summary with the key points.
+This is **Syntese**, a project I built to explore how **artificial intelligence can be used to generate automatic summaries**. The idea is simple: paste a text in the input area, and the AI will return a concise summary with the key points.
 
 I created this tool as a hands-on learning project to practice integrating with language models, while also helping myself digest long content like articles, reports, or academic texts more efficiently.
 
-💡 Features
-Text area to paste any content
+### 💡 Features
 
-Automatic summary generation using AI
+- Text area to paste any content  
+- Automatic summary generation using AI  
+- Clean and focused interface  
 
-Clean and focused interface
+### 🛠️ Technologies Used
 
-🛠️ Technologies Used
-HTML5
+- HTML5  
+- CSS3  
+- JavaScript  
+- Integration with AI API (such as OpenAI)
 
-CSS3
+### 🚀 How to run locally
 
-JavaScript
+1. Clone the repository:
 
-Integration with AI API (such as OpenAI)
-
-🚀 How to run locally
-Clone the repository:
-
-bash
-Copiar
-Editar
+```bash
 git clone https://github.com/Arrudonimous/syntese.git
-Navigate to the project folder:
+```
 
-bash
-Copiar
-Editar
+2. Navigate to the project folder:
+
+```bash
 cd syntese
-Open the index.html file in your browser.
+```
 
-📌 Projeto simples, com foco em aprendizado e experimentação com IA.
+3. Open the `index.html` file in your browser.
+
+---
+
+📌 Projeto simples, com foco em aprendizado e experimentação com IA.  
 📌 Simple project focused on learning and experimenting with AI.
 
 Obrigado por visitar! / Thanks for checking it out!
